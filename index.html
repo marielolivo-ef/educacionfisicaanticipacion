@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel de Anticipación · Educación Física · Pictogramas ARASAAC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://api.arasaac.org">
+<link rel="preconnect" href="https://static.arasaac.org">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f3ec;--card:#ffffff;--ink:#1f2a37;--muted:#5f6b78;--line:#dcd7c9;
+  --pri:#2e6b8a;--pri2:#e2eef4;--ok:#3d8a57;--ok2:#e3f1e7;--warn:#b7791f;--warn2:#fbf1df;
+  --bad:#b0463c;--bad2:#f8e5e2;--rad:18px;--sh:0 2px 10px rgba(31,42,55,.07);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.4}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{margin:0 0 .5rem;line-height:1.2}
+h2{font-size:1.35rem}h3{font-size:1.08rem}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+.oculto{display:none!important}
+
+header.app{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.hwrap{max-width:1200px;margin:0 auto;padding:.7rem 1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.marca{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:1.1rem}
+.marca .logo{width:40px;height:40px;border-radius:12px;background:var(--pri2);overflow:hidden}
+.marca small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
+nav.tabs{display:flex;gap:.3rem;margin-left:auto;flex-wrap:wrap}
+nav.tabs button{border:0;background:transparent;padding:.55rem .9rem;border-radius:999px;cursor:pointer;color:var(--muted);font-weight:700}
+nav.tabs button.act{background:var(--pri2);color:var(--pri)}
+main{max-width:1200px;margin:0 auto;padding:1.2rem 1rem 3rem}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:1.1rem;box-shadow:var(--sh)}
+.grid{display:grid;gap:1rem}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.fila{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--card);padding:.6rem 1rem;border-radius:12px;cursor:pointer;font-weight:700;display:inline-flex;align-items:center;gap:.4rem;text-decoration:none}
+.btn:hover{border-color:var(--pri)}
+.btn.pri{background:var(--pri);color:#fff;border-color:var(--pri)}
+.btn.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.btn.warn{background:var(--warn2);color:var(--warn);border-color:#efd9b1}
+.btn.bad{color:var(--bad);border-color:#e7c3be}
+.btn.sm{padding:.35rem .6rem;font-size:.85rem;border-radius:10px}
+.btn.grande{padding:1rem 1.4rem;font-size:1.15rem;border-radius:16px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+label.campo{display:flex;flex-direction:column;gap:.25rem;font-weight:700;font-size:.9rem}
+label.campo span.ay{font-weight:400;color:var(--muted);font-size:.8rem}
+input[type=text],input[type=number],input[type=date],input[type=search],select,textarea{border:1px solid var(--line);border-radius:10px;padding:.55rem .7rem;background:#fff;width:100%}
+textarea{min-height:80px;resize:vertical}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #9cc4d8;outline-offset:1px}
+.chk{display:flex;gap:.5rem;align-items:center;font-weight:400}
+.badge{display:inline-block;padding:.15rem .55rem;border-radius:999px;background:var(--pri2);color:var(--pri);font-size:.78rem;font-weight:700}
+.badge.ok{background:var(--ok2);color:var(--ok)}.badge.warn{background:var(--warn2);color:var(--warn)}
+.aviso{background:var(--warn2);border:1px solid #efd9b1;border-radius:12px;padding:.7rem .9rem;font-size:.9rem}
+.vacio{padding:2rem;text-align:center;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{text-align:left;padding:.5rem .55rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+.tabla-wrap{overflow:auto;max-height:520px}
+
+/* Pictogramas ARASAAC */
+.picto{position:relative;background:#fff;border-radius:14px;overflow:hidden;aspect-ratio:1/1;width:100%}
+.picto img{width:100%;height:100%;object-fit:contain;display:block}
+.picto .fb{display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;padding:.3rem;background:#f1eee6;color:var(--muted);text-align:center;font-size:.7rem;line-height:1.15}
+.picto .fb b{color:var(--muted);font-size:1.1em;overflow:hidden}
+.marca .logo .fb{display:none!important}
+.picto.sinimg img{display:none}
+.picto.sinimg .fb,.picto.vacio .fb{display:flex}
+.tira-mini{display:flex;gap:.4rem;flex-wrap:wrap}
+.tira-mini .it{width:72px;text-align:center;font-size:.7rem;color:var(--muted)}
+.tira-mini .picto{border:1px solid var(--line)}
+
+/* Editor de pasos */
+.editor{display:grid;grid-template-columns:270px 1fr;gap:1rem}
+@media(max-width:860px){.editor{grid-template-columns:1fr}}
+.lista-ag button{width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:.6rem .8rem;margin-bottom:.4rem;cursor:pointer}
+.lista-ag button.act{border-color:var(--pri);background:var(--pri2)}
+.paso-row{display:grid;grid-template-columns:28px 84px 1fr 1fr 150px auto;gap:.5rem;align-items:center;padding:.55rem;border:1px solid var(--line);border-radius:14px;background:#fff;margin-bottom:.5rem}
+.con-cat .paso-row{grid-template-columns:28px 84px 1fr 1fr 170px auto}
+.paso-row.hecho{background:#f4f7f5;opacity:.75}
+.paso-row.actual{border:2px solid var(--pri)}
+.paso-row .num{font-weight:700;color:var(--muted);text-align:center}
+.paso-row .pbtn{border:2px dashed var(--line);border-radius:14px;padding:0;background:#fff;cursor:pointer;width:84px;position:relative}
+.paso-row .pbtn:hover{border-color:var(--pri)}
+.paso-row .pbtn::after{content:"Cambiar";position:absolute;left:0;right:0;bottom:0;background:rgba(46,107,138,.85);color:#fff;font-size:.65rem;font-weight:700;padding:.1rem 0;border-radius:0 0 12px 12px;opacity:0}
+.paso-row .pbtn:hover::after{opacity:1}
+.paso-row .acc{display:flex;gap:.25rem;flex-wrap:wrap}
+@media(max-width:860px){.paso-row{grid-template-columns:76px 1fr}.paso-row .num{display:none}.paso-row .pbtn{width:76px;grid-row:span 3}.paso-row .acc{grid-column:2}}
+
+/* Modales (2 capas) */
+.modal-fondo{position:fixed;inset:0;background:rgba(20,28,38,.45);display:flex;align-items:flex-start;justify-content:center;padding:4vh 1rem;z-index:100;overflow:auto}
+#modal2 .modal-fondo{z-index:110}
+.modal{background:#fff;border-radius:20px;max-width:780px;width:100%;padding:1.3rem;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+.modal.ancho{max-width:1050px}
+.modal .cerrar{float:right}
+.grid-res{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.6rem;margin-top:1rem;max-height:56vh;overflow:auto}
+.res{border:2px solid var(--line);border-radius:14px;padding:.35rem;background:#fff;cursor:pointer;text-align:center;font-size:.8rem}
+.res:hover{border-color:var(--pri)}
+.res .id{display:block;color:var(--muted);font-size:.68rem}
+.opciones{display:flex;gap:.4rem;flex-wrap:wrap}
+.opciones input{display:none}
+.opciones label{border:1px solid var(--line);border-radius:999px;padding:.4rem .8rem;cursor:pointer;font-weight:400}
+.opciones input:checked+label{background:var(--pri);color:#fff;border-color:var(--pri)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:14px;padding:.8rem}
+.kpi b{display:block;font-size:1.6rem}
+.barra{display:grid;grid-template-columns:150px 1fr 40px;gap:.5rem;align-items:center;margin:.3rem 0;font-size:.88rem}
+.barra .t{background:#eeeae0;border-radius:999px;height:14px;overflow:hidden}
+.barra .t i{display:block;height:100%;background:var(--pri);border-radius:999px}
+
+/* PANEL DEL ESTUDIANTE */
+#panel{position:fixed;inset:0;background:#f3f6f4;z-index:50;display:flex;flex-direction:column;overflow:auto}
+#panel>*{flex-shrink:0}
+.p-top{display:flex;align-items:center;gap:1rem;padding:.7rem 1.1rem;background:#fff;border-bottom:1px solid var(--line)}
+.p-top .nom{font-weight:700;font-size:1.2rem}
+.p-prog{flex:1;display:flex;align-items:center;gap:.6rem}
+.p-prog .t{flex:1;max-width:420px;height:14px;background:#e4e8e5;border-radius:999px;overflow:hidden}
+.p-prog .t i{display:block;height:100%;background:var(--ok);transition:width .4s}
+.salir{position:relative;overflow:hidden;border:1px solid var(--line);background:#fff;border-radius:12px;padding:.5rem .8rem;font-size:.85rem;color:var(--muted);cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none}
+.salir i{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(176,70,60,.18)}
+.salir.cargando i{width:100%;transition:width 1.6s linear}
+.p-tira{display:flex;gap:.6rem;padding:.8rem 1.1rem;overflow-x:auto;background:#fff;border-bottom:1px solid var(--line)}
+.p-tira .it{flex:0 0 auto;width:96px;text-align:center;font-size:.78rem;cursor:pointer;border:0;background:transparent;padding:0}
+.p-tira .it .picto{border:3px solid #e1e5e2}
+.p-tira .it.actual .picto{border-color:var(--pri);box-shadow:0 0 0 4px var(--pri2)}
+.p-tira .it.hecho .picto{opacity:.4;filter:grayscale(.6)}
+.p-tira .it.hecho .picto::after{content:"✔";position:absolute;inset:0;display:grid;place-items:center;font-size:2.6rem;color:var(--ok);font-weight:700;background:rgba(255,255,255,.35)}
+.p-tira .it.saltado .picto{opacity:.35}
+.p-centro{flex:1 0 auto;display:grid;grid-template-columns:1.6fr 1fr;gap:1.2rem;padding:1.2rem;align-items:start}
+@media(max-width:760px){.p-centro{grid-template-columns:1fr}}
+.p-col h2{font-size:1.1rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.p-col.ahora h2{color:var(--pri)}
+.p-card{background:#fff;border-radius:24px;padding:1rem;border:3px solid #e1e5e2;text-align:center;cursor:pointer;width:100%;display:block}
+.p-col.ahora .p-card{border-color:var(--pri)}
+.p-card .picto{width:min(100%,380px);margin:0 auto}
+.p-card .picto .fb{font-size:1rem}
+.p-col.despues .p-card .picto{width:min(100%,220px)}
+.p-card .tx{font-size:1.9rem;font-weight:700;margin-top:.5rem}
+.p-col.despues .p-card .tx{font-size:1.3rem}
+.grande-ui .p-card .tx{font-size:2.3rem}
+.p-acciones{display:flex;gap:.8rem;justify-content:center;margin-top:1rem;flex-wrap:wrap}
+.btn-termine{background:var(--ok);color:#fff;border:0;border-radius:20px;padding:.6rem 1.6rem .6rem .6rem;font-size:1.6rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:.8rem}
+.btn-termine .picto{width:70px;border-radius:14px}
+.p-docente{display:flex;gap:.4rem;justify-content:center;margin-top:.8rem;flex-wrap:wrap}
+.p-docente .btn{opacity:.85}
+.timer{display:flex;align-items:center;gap:.6rem;justify-content:center;margin-top:.6rem;font-weight:700;color:var(--muted)}
+.timer svg{width:64px;height:64px;transform:rotate(-90deg)}
+.timer circle{fill:none;stroke-width:10}
+.timer .bg{stroke:#e4e8e5}.timer .fg{stroke:var(--pri);stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.timer.fin .fg{stroke:var(--warn)}
+.p-cambio{margin:1rem 1.2rem 0;background:var(--warn2);border:2px solid #efd9b1;border-radius:18px;padding:.8rem 1rem;display:flex;align-items:center;gap:1rem;font-size:1.3rem;font-weight:700;color:#7a5212}
+.p-cambio .picto{width:80px;flex:0 0 80px}
+.p-tablero{background:#fff;border-top:1px solid var(--line);padding:.7rem 1.1rem}
+.p-tablero h3{font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.p-tablero .bts{display:flex;gap:.6rem;overflow-x:auto;padding-bottom:.2rem}
+.p-tablero button{flex:0 0 auto;width:100px;border:2px solid #e1e5e2;background:#fff;border-radius:16px;padding:.35rem;cursor:pointer;font-size:.78rem;font-weight:700}
+.p-tablero button.pulsado{border-color:var(--warn);background:var(--warn2)}
+.p-final{flex:1;padding:1.5rem;text-align:center}
+.p-final h2{font-size:2rem}
+.p-final .picto.fin{width:150px;margin:0 auto}
+.p-opc{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;max-width:1000px;margin:1rem auto}
+.p-opc button{border:3px solid #e1e5e2;background:#fff;border-radius:20px;padding:.6rem;cursor:pointer;font-size:1.15rem;font-weight:700}
+.p-opc button.sel{border-color:var(--ok);background:var(--ok2)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:.7rem 1.1rem;border-radius:12px;z-index:200;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+
+footer.cred{max-width:1200px;margin:0 auto;padding:0 1rem 2rem;font-size:.8rem;color:var(--muted)}
+footer.cred a{color:var(--pri)}
+
+/* ---------- Mejoras: fichas, calma, repeticiones, docente ---------- */
+.mv{display:grid;grid-template-columns:1fr 1fr;gap:.35rem}
+.p-fichas{display:flex;align-items:center;gap:.5rem;background:#fffbea;border:2px solid #f2dc8c;border-radius:14px;padding:.3rem .6rem;cursor:pointer}
+.p-fichas .picto{width:44px;flex:0 0 44px}
+.p-fichas .fi{width:26px;height:26px;border-radius:50%;border:2px dashed #d6b84a;display:grid;place-items:center;font-size:1rem;color:#7a5a00;background:#fff}
+.p-fichas .fi.on{border-style:solid;background:#ffd84d}
+.btn-calma{display:flex;align-items:center;gap:.4rem;border:2px solid #9cc4d8;background:#eef6fa;border-radius:14px;padding:.25rem .8rem .25rem .25rem;font-weight:700;font-size:1.05rem;cursor:pointer;color:#2e6b8a}
+.btn-calma .picto{width:42px;flex:0 0 42px}
+.reps{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:.8rem}
+.reps button{width:58px;height:58px;border-radius:50%;border:3px solid var(--pri);background:#fff;font-size:1.4rem;font-weight:700;color:var(--pri);cursor:pointer}
+.reps button.on{background:var(--pri);color:#fff}
+.btn-termine.listo{animation:latido 1.2s ease-in-out infinite}
+@keyframes latido{50%{transform:scale(1.06);box-shadow:0 0 0 10px rgba(61,138,87,.22)}}
+.timer.pronto .fg{stroke:var(--warn)}
+.timer.pronto{color:#7a5212}
+.p-doc{margin-top:.9rem;text-align:center}
+.p-doc summary{cursor:pointer;color:var(--muted);font-size:.85rem;list-style:none;display:inline-block;padding:.3rem .8rem;border:1px dashed var(--line);border-radius:999px;background:#fff}
+.p-doc summary::-webkit-details-marker{display:none}
+.p-calma{flex:1 0 auto;background:linear-gradient(#eaf3f7,#f3f0f9);display:flex;flex-direction:column;align-items:center;padding:1.5rem;gap:1.1rem;text-align:center}
+.respira{width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,#c6e3ef,#7fb6cf);display:grid;place-items:center;color:#fff;font-size:2rem;font-weight:700;transform:scale(.6);transition:transform 4s ease-in-out;box-shadow:0 0 0 18px rgba(127,182,207,.18)}
+.respira.in{transform:scale(1)}
+.p-calma .estr{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+.p-calma .estr button{width:130px;border:3px solid #d5e4ea;background:#fff;border-radius:18px;padding:.5rem;font-weight:700;cursor:pointer}
+.p-premio{position:fixed;inset:0;background:rgba(255,248,220,.97);z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;text-align:center;padding:1rem}
+.p-premio .picto{width:min(55vw,280px)}
+.p-premio h2{font-size:2.3rem;margin:0}
+.estrellas{font-size:2.4rem;letter-spacing:.3rem;color:#e0a800}
+.graf svg{width:100%;height:auto}
+.graf .ley{display:flex;gap:1.2rem;font-size:.85rem;flex-wrap:wrap;margin-top:.3rem}
+.graf .ley i{display:inline-block;width:16px;height:4px;border-radius:2px;vertical-align:middle;margin-right:.35rem}
+.ref-box{display:flex;align-items:center;gap:.7rem;border:1px dashed var(--line);border-radius:12px;padding:.5rem}
+.ref-box .picto{width:64px;flex:0 0 64px}
+.h-fichas{display:flex;flex-wrap:wrap;gap:6mm;justify-content:center}
+.h-fichas div{width:26mm;height:26mm;border:1mm dashed #c99a06;border-radius:50%}
+.h-premio{display:flex;align-items:center;gap:8mm;border:1.2mm solid #e0a800;border-radius:6mm;padding:5mm;background:#fff8dc}
+.h-premio .picto{width:50mm;flex:0 0 50mm}
+.h-premio b{font-size:11mm}
+.h-resp{display:flex;justify-content:center;gap:10mm;font-size:8mm;font-weight:700;color:#2e6b8a}
+
+/* ---------- IMPRESIÓN ---------- */
+.imp-layout{display:grid;grid-template-columns:320px 1fr;gap:1rem;align-items:start}
+@media(max-width:900px){.imp-layout{grid-template-columns:1fr}}
+.imp-op{position:sticky;top:80px}
+.formatos{display:grid;gap:.4rem}
+.formatos label{display:flex;gap:.6rem;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:.55rem .7rem;cursor:pointer;font-weight:400}
+.formatos input{margin-top:.2rem}
+.formatos label:has(input:checked){border-color:var(--pri);background:var(--pri2)}
+.formatos b{display:block}
+.vista-previa{background:#d9d6cd;border-radius:var(--rad);padding:1rem;overflow:auto;max-height:82vh}
+.vista-previa .zoom{zoom:.6;transform-origin:top left}
+.hoja{background:#fff;color:#111;margin:0 auto 1.2rem;padding:12mm;box-shadow:0 4px 16px rgba(0,0,0,.18);font-family:"Atkinson Hyperlegible",Arial,sans-serif;display:flex;flex-direction:column;gap:6mm;break-after:page;page-break-after:always}
+.hoja.letter{width:215.9mm;min-height:279.4mm}.hoja.letter.horiz{width:279.4mm;min-height:215.9mm}
+.hoja.a4{width:210mm;min-height:297mm}.hoja.a4.horiz{width:297mm;min-height:210mm}
+.h-cab{display:flex;align-items:center;gap:5mm;border-bottom:1.2mm solid #2e6b8a;padding-bottom:4mm}
+.h-cab .picto{width:22mm;flex:0 0 22mm}
+.h-cab h1{font-size:12mm;margin:0;line-height:1.05}
+.h-cab p{margin:1mm 0 0;font-size:5mm;color:#444}
+.h-pie{margin-top:auto;font-size:2.6mm;color:#555;border-top:.3mm solid #bbb;padding-top:2mm}
+.h-pasos{display:flex;flex-wrap:wrap;gap:5mm;justify-content:center;align-content:flex-start}
+.ic{position:relative;border:.8mm solid #333;border-radius:4mm;padding:2.5mm;text-align:center;break-inside:avoid;page-break-inside:avoid;background:#fff}
+.ic .picto{border-radius:2mm}
+.ic .t{font-weight:700;margin-top:1.5mm;line-height:1.1}
+.ic .n{position:absolute;top:-4mm;left:-4mm;width:9mm;height:9mm;border-radius:50%;background:#2e6b8a;color:#fff;font-weight:700;display:grid;place-items:center;font-size:5mm}
+.ic.cortar{border:.5mm dashed #888;border-radius:0}
+.h-tabla{width:100%;border-collapse:collapse}
+.h-tabla td{border:.5mm solid #333;padding:2.5mm;vertical-align:middle;font-size:inherit}
+.h-tabla .num{width:12mm;text-align:center;font-weight:700;font-size:7mm}
+.h-tabla .casilla{width:28mm;text-align:center;color:#666;font-size:3.5mm}
+.h-tabla .casilla div{width:16mm;height:16mm;border:.8mm solid #333;border-radius:2mm;margin:0 auto 1mm}
+.h-tabla tr{break-inside:avoid;page-break-inside:avoid}
+.h-sec{font-size:7mm;font-weight:700;margin:2mm 0 0}
+.h-leyenda{display:flex;flex-wrap:wrap;gap:3mm;font-size:3.4mm}
+.h-leyenda span{display:inline-flex;align-items:center;gap:1.5mm}
+.h-leyenda i{width:5mm;height:5mm;border-radius:1mm;display:inline-block}
+.h-ad{display:grid;grid-template-columns:1fr 1fr;gap:8mm;flex:1}
+.h-ad .caja{border:1.2mm solid #2e6b8a;border-radius:6mm;display:flex;flex-direction:column;align-items:center;padding:5mm;gap:4mm}
+.h-ad .caja.desp{border-color:#777}
+.h-ad .caja h2{font-size:13mm;letter-spacing:2mm;margin:0;color:#2e6b8a}
+.h-ad .caja.desp h2{color:#555}
+.h-ad .hueco{flex:1;width:100%;border:.8mm dashed #999;border-radius:4mm;display:grid;place-items:center;color:#999;font-size:4mm;min-height:80mm}
+.h-term{border:1.2mm solid #3d8a57;border-radius:6mm;padding:4mm;display:flex;align-items:center;gap:5mm;min-height:45mm}
+.h-term .picto{width:30mm;flex:0 0 30mm}
+.h-term b{font-size:10mm;color:#3d8a57;letter-spacing:1mm}
+.h-term .hueco{flex:1;align-self:stretch;border:.8mm dashed #999;border-radius:4mm}
+.mayus .t,.mayus td{text-transform:uppercase}
+#zonaImpresion{display:none}
+@media print{
+  html,body.imprimiendo{background:#fff!important}
+  body.imprimiendo > *:not(#zonaImpresion){display:none!important}
+  body.imprimiendo #zonaImpresion{display:block}
+  body.imprimiendo .hoja{width:auto!important;min-height:auto!important;margin:0;padding:0;box-shadow:none}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media print{
+  header.app,.no-print,.btn{display:none!important}
+  body{background:#fff}.card{box-shadow:none;border-color:#ccc;break-inside:avoid}
+  .tabla-wrap{max-height:none;overflow:visible}main{padding:0}
+}
+</style>
+</head>
+<body>
+
+<header class="app">
+  <div class="hwrap">
+    <div class="marca"><div class="logo" id="logoPicto"></div>
+      <div>Panel de Anticipación EF<small>Agenda visual por clase · pictogramas ARASAAC con voz</small></div></div>
+    <nav class="tabs" id="tabs">
+      <button data-vista="inicio" class="act">Inicio</button>
+      <button data-vista="clases">Clases</button>
+      <button data-vista="estudiantes">Estudiantes</button>
+      <button data-vista="imprimir">Imprimir</button>
+      <button data-vista="registro">Registro</button>
+      <button data-vista="ajustes">Ajustes</button>
+    </nav>
+  </div>
+</header>
+
+<main id="vista"></main>
+
+<footer class="cred">
+  Los símbolos pictográficos utilizados son propiedad del Gobierno de Aragón y han sido creados por Sergio Palao para
+  <a href="https://arasaac.org" target="_blank" rel="noopener">ARASAAC</a>, que los distribuye bajo Licencia Creative Commons
+  (BY-NC-SA). Obtenidos mediante la <a href="https://arasaac.org/developers/api" target="_blank" rel="noopener">API de ARASAAC</a>. Uso educativo sin fines comerciales.
+</footer>
+
+<div id="panel" class="oculto" aria-live="polite"></div>
+<div id="modal1"></div>
+<div id="zonaImpresion"></div>
+<div id="modal2"></div>
+
+<script>
+/* =====================================================================
+   PANEL DE ANTICIPACIÓN · EDUCACIÓN FÍSICA
+   Pictogramas: API de ARASAAC  https://arasaac.org/developers/api
+     · Búsqueda:   GET https://api.arasaac.org/v1/pictograms/es/search/{texto}
+     · Mejor:      GET https://api.arasaac.org/v1/pictograms/es/bestsearch/{texto}
+     · Imagen:     GET https://api.arasaac.org/v1/pictograms/{id}?color&skin&hair&resolution
+     · Estática:   https://static.arasaac.org/pictograms/{id}/{id}_{300|500}.png
+   Voz: Web Speech API del navegador
+   Datos: localStorage de este navegador + respaldo JSON / CSV
+   ===================================================================== */
+const API = 'https://api.arasaac.org/v1/pictograms';
+const ESTATICA = (id, s = 500) => `https://static.arasaac.org/pictograms/${id}/${id}_${s}.png`;
+const CLAVE = 'panelAnticipacionEF_v1';
+
+const TIPOS = {
+  inicio_sesion:'Inicio de clase', escuchar_agenda:'Escuchó la agenda', pictograma_tocado:'Tocó pictograma',
+  paso_completado:'Paso completado', paso_saltado:'Paso omitido', paso_repetido:'Volvió a un paso',
+  tiempo_cumplido:'Tiempo cumplido', comunicacion:'Comunicación', cambio_agenda:'Cambio en la clase',
+  emocion:'Emoción', favorito:'Lo que más le gustó', fin_sesion:'Fin de clase', observacion:'Observación docente',
+  aviso_transicion:'Aviso de transición', calma_inicio:'Pidió un momento de calma', calma_estrategia:'Estrategia de calma',
+  calma_fin:'Volvió tras la calma', nota_docente:'Nota rápida del docente', ficha:'Ganó una estrella', reforzador:'Consiguió su premio'
+};
+const NOTAS_RAPIDAS = ['Logro destacado','Siguió la instrucción sin ayuda','Interactuó con un compañero','Esperó su turno','Necesitó ayuda física','Se aisló del grupo','Sobrecarga sensorial','Rechazó la actividad','Conducta desafiante'];
+const AUTONOMIA = { 'Independiente':100, 'Apoyo verbal':75, 'Apoyo visual':50, 'Apoyo gestual / modelado':25, 'Apoyo físico':0 };
+const NUM = ['cero','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve','veinte','veintiuno','veintidós','veintitrés','veinticuatro','veinticinco','veintiséis','veintisiete','veintiocho','veintinueve','treinta'];
+const IMGCACHE = new Map();   // pictogramas guardados en el dispositivo (IndexedDB) para usar sin internet
+const NECESIDADES = ['TEA (autismo)','TDAH','Discapacidad intelectual','Síndrome de Down','Discapacidad motora','Discapacidad auditiva','Discapacidad visual','Trastorno del lenguaje','Otra'];
+const APOYOS = ['Independiente','Apoyo verbal','Apoyo visual','Apoyo gestual / modelado','Apoyo físico'];
+const REGULACION = ['Se mantuvo regulado/a','Necesitó apoyo para regularse','Episodio de desregulación'];
+const UTIL_PANEL = ['Sí, anticipó bien','En parte','No le ayudó hoy'];
+const CATS = { persona:['Personas','#f5cf3a'], verbo:['Acciones (verbos)','#4caf50'], sustantivo:['Cosas y lugares','#f08a2c'], descriptivo:['Descriptivos','#3f8fd8'], social:['Social','#e584ad'], misc:['Otros','#c9ced4'] };
+const CAT_DEF = { 'ayudar':'verbo','agua':'sustantivo','baño':'sustantivo','descansar':'verbo','ruidoso':'descriptivo','dolor':'verbo','sí':'social','no':'social','gustar':'verbo','repetir':'verbo' };
+/* Números de pictograma ARASAAC verificados en la API (api.arasaac.org/v1/pictograms/es/bestsearch/…) */
+const IDS_ARASAAC = {
+  'patio':6204,'saludar':6610,'estirar':8574,'correr':6465,'pelota':3241,'beber':2276,'respirar':34377,'lavar las manos':8975,'adiós':5896,
+  'fila':7102,'saltar':2804,'lanzar':6542,'equilibrio':11256,'gatear':6511,'aplaudir':4563,
+  'ayudar':4570,'agua':2248,'baño':6929,'descansar':3299,'ruidoso':7157,'dolor':2367,'sí':5584,'no':5526,'gustar':2418,'repetir':11752,
+  'contento':3245,'tranquilo':31310,'cansado':2314,'nervioso':11312,'triste':2606,'enfadado':2374,
+  'terminar':5358,'cambiar':8053,'final':5358,'educación física':10258
+};
+const ALIAS_ANTIGUOS = { 'beber agua':'beber','lavarse las manos':'lavar las manos','ayuda':'ayudar','ruido':'ruidoso','otra vez':'repetir' };
+const PIELES = [['','Original ARASAAC'],['white','Blanca'],['mulatto','Mestiza / mulata'],['black','Negra'],['aztec','Morena (azteca)'],['assian','Asiática']];
+const PELOS = [['','Original ARASAAC'],['black','Negro'],['darkBrown','Castaño oscuro'],['brown','Castaño'],['blonde','Rubio'],['red','Pelirrojo'],['gray','Canoso'],['darkGray','Gris oscuro']];
+
+const uid = () => Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-4);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const hoyISO = () => { const d = new Date(); return new Date(d - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); };
+const fFecha = ts => new Date(ts).toLocaleDateString('es-DO', {day:'2-digit', month:'2-digit', year:'numeric'});
+const fISO = iso => iso ? fFecha(new Date(iso + 'T12:00')) : 'sin fecha';
+const fHora = ts => new Date(ts).toLocaleTimeString('es-DO', {hour:'2-digit', minute:'2-digit'});
+const fDur = s => { s = Math.round(s || 0); const m = Math.floor(s / 60), r = s % 60; return m ? `${m} min ${r}s` : `${r}s`; };
+
+/* ---------------- Datos por defecto (solo palabras clave ARASAAC) ---------------- */
+function paso(busqueda, texto, minutos = 0, voz) {
+  return { id: uid(), busqueda, picto: IDS_ARASAAC[busqueda] || null, texto, voz: voz || texto, minutos, veces: 0 };
+}
+function clase(nombre, pasos, extra = {}) {
+  return { id: uid(), nombre, fecha: hoyISO(), curso: '', objetivo: '', pasos, ...extra };
+}
+function porDefecto() {
+  return {
+    version: 2,
+    ajustes: { vozNombre: '', leerAlIniciar: true, felicitar: true, color: true, piel: '', pelo: '', fitzgerald: true,
+      controlesDocente: 'ocultos', avisoTransicion: true, guiarCalma: true, cacheAuto: true, cacheFallo: false, ultimoRespaldo: 0 },
+    estudiantes: [{
+      id: uid(), nombre: 'Estudiante de ejemplo', curso: '3.º de primaria', centro: '', necesidad: 'TEA (autismo)',
+      notas: 'Necesita saber qué viene después. Le incomoda el ruido fuerte y los cambios sin aviso.',
+      prefs: { vozRate: 0.9, mostrarTexto: true, vista: 'tira', temporizador: true, tamano: 'grande', byn: false, hechos: 'marcar',
+        calma: true, fichas: { activo: false, n: 0, reforzador: null } }
+    }],
+    agendas: [
+      clase('Clase de Educación Física (modelo)', [
+        paso('patio', 'Vamos al patio'),
+        paso('saludar', 'Saludamos'),
+        paso('estirar', 'Calentamos y estiramos', 5),
+        paso('correr', 'Corremos', 5),
+        paso('pelota', 'Jugamos con la pelota', 10),
+        paso('beber', 'Bebemos agua', 2),
+        paso('respirar', 'Descansamos y respiramos', 3),
+        paso('lavar las manos', 'Nos lavamos las manos'),
+        paso('adiós', 'Nos despedimos')
+      ], { objetivo: 'Estructura general de una clase.' }),
+      clase('Circuito motor', [
+        paso('fila', 'Hacemos la fila'),
+        paso('saltar', 'Saltamos', 3),
+        paso('lanzar', 'Lanzamos la pelota', 3),
+        paso('equilibrio', 'Caminamos en equilibrio', 3),
+        paso('gatear', 'Gateamos', 3),
+        paso('aplaudir', '¡Lo logramos!')
+      ], { objetivo: 'Habilidades motrices básicas en circuito.' })
+    ],
+    tablero: [
+      paso('ayudar', 'Ayuda', 0, 'Necesito ayuda'),
+      paso('agua', 'Agua', 0, 'Quiero agua'),
+      paso('baño', 'Baño', 0, 'Quiero ir al baño'),
+      paso('descansar', 'Descansar', 0, 'Quiero descansar'),
+      paso('ruidoso', 'Mucho ruido', 0, 'Hay mucho ruido'),
+      paso('dolor', 'Me duele', 0, 'Me duele'),
+      paso('sí', 'Sí', 0, 'Sí'),
+      paso('no', 'No', 0, 'No'),
+      paso('gustar', 'Me gusta', 0, 'Me gusta'),
+      paso('repetir', 'Otra vez', 0, 'Otra vez')
+    ],
+    emociones: [
+      paso('contento', 'Contento', 0, 'Me siento contento'),
+      paso('tranquilo', 'Tranquilo', 0, 'Me siento tranquilo'),
+      paso('cansado', 'Cansado', 0, 'Me siento cansado'),
+      paso('nervioso', 'Nervioso', 0, 'Me siento nervioso'),
+      paso('triste', 'Triste', 0, 'Me siento triste'),
+      paso('enfadado', 'Enfadado', 0, 'Me siento enfadado')
+    ],
+    calma: [
+      paso('respirar', 'Respirar', 0, 'Respiro despacio'),
+      paso('beber', 'Beber agua', 0, 'Voy a beber agua'),
+      paso('descansar', 'Descansar', 0, 'Descanso un momento'),
+      paso('tranquilo', 'Estar tranquilo', 0, 'Me quedo tranquilo')
+    ],
+    sistema: [ paso('terminar', 'Terminé'), paso('cambiar', 'Cambio'), paso('final', 'Final'), paso('educación física', 'Educación Física'), paso('tranquilo', 'Calma') ],
+    sesiones: [], registros: [], observaciones: [], cache: {}
+  };
+}
+
+const PLANTILLAS = {
+  'pl-base':  ['Clase de Educación Física (estructura base)', () => porDefecto().agendas[0].pasos],
+  'pl-circ':  ['Circuito motor', () => porDefecto().agendas[1].pasos],
+  'pl-lanz':  ['Juego de lanzamientos (con repeticiones)', () => [paso('fila', 'Hacemos la fila'), paso('estirar', 'Calentamos', 3), { ...paso('lanzar', 'Lanzamos la pelota', 5), veces: 5 }, { ...paso('saltar', 'Saltamos', 3), veces: 10 }, paso('aplaudir', '¡Muy bien!'), paso('beber', 'Bebemos agua', 1), paso('adiós', 'Nos despedimos')]],
+  'pl-calma': ['Vuelta a la calma', () => [paso('respirar', 'Respiramos despacio', 2), paso('estirar', 'Estiramos', 3), paso('descansar', 'Descansamos', 2), paso('beber', 'Bebemos agua', 1), paso('lavar las manos', 'Nos lavamos las manos'), paso('adiós', 'Nos despedimos')]]
+};
+
+/* ---------------- Persistencia y migración ---------------- */
+let S;
+function cargar() {
+  try { const t = localStorage.getItem(CLAVE); S = t ? JSON.parse(t) : porDefecto(); }
+  catch (e) { S = porDefecto(); }
+  migrar();
+}
+function migrar() {
+  const d = porDefecto();
+  for (const k of Object.keys(d)) if (S[k] === undefined) S[k] = d[k];
+  for (const k of Object.keys(d.ajustes)) if (S.ajustes[k] === undefined) S.ajustes[k] = d.ajustes[k];
+  const limpiar = p => { delete p.emoji; delete p.foto;
+    if (ALIAS_ANTIGUOS[p.busqueda]) { p.busqueda = ALIAS_ANTIGUOS[p.busqueda]; p.picto = null; }
+    if (!p.picto && IDS_ARASAAC[p.busqueda]) p.picto = IDS_ARASAAC[p.busqueda]; if (p.voz === undefined) p.voz = p.texto; if (p.minutos === undefined) p.minutos = 0; };
+  S.agendas.forEach(a => { a.fecha ??= hoyISO(); a.curso ??= ''; a.objetivo ??= ''; a.pasos.forEach(limpiar); });
+  [...S.tablero, ...S.emociones, ...S.sistema, ...S.calma].forEach(limpiar);
+  if (!S.sistema.some(x => x.texto === 'Calma')) S.sistema.push(paso('tranquilo', 'Calma'));
+  S.agendas.forEach(a => a.pasos.forEach(p => { p.veces ??= 0; }));
+  S.estudiantes.forEach(e => { e.prefs.calma ??= true; e.prefs.fichas ??= { activo: false, n: 0, reforzador: null }; });
+  S.sesiones.forEach(x => { x.calmas ??= 0; x.calmaSeg ??= 0; x.premio ??= false; });
+  S.estudiantes.forEach(e => { e.prefs.byn ??= false; e.prefs.hechos ??= 'marcar'; });
+  S.tablero.forEach(p => { p.cat ??= CAT_DEF[p.busqueda] || 'misc'; });
+  S.sesiones.forEach(s => { s.completados?.forEach(c => c.id ??= null); });
+  S.cache = { ...(S.cache || {}), ...IDS_ARASAAC };
+  S.version = 3;
+}
+function guardar() {
+  try { localStorage.setItem(CLAVE, JSON.stringify(S)); }
+  catch (e) { toast('No se pudo guardar: almacenamiento lleno. Exporta un respaldo.'); }
+}
+
+/* ---------------- API ARASAAC ---------------- */
+function urlPicto(id, { s = 500, byn = false } = {}) {
+  const a = S.ajustes, color = a.color && !byn;
+  if (color && !a.piel && !a.pelo) return ESTATICA(id, s);           // imagen original, servida por la CDN de ARASAAC
+  const q = new URLSearchParams({ resolution: '500', color: String(color), download: 'false' });
+  if (a.piel) q.set('skin', a.piel);
+  if (a.pelo) q.set('hair', a.pelo);
+  return `${API}/${id}?${q}`;                                          // imagen personalizada por la API
+}
+function pictoErr(img) {                                               // si la API personalizada falla, usa la imagen estática
+  if (img.dataset.est && img.src !== img.dataset.est) { img.src = img.dataset.est; return; }
+  img.parentNode.classList.add('sinimg');
+}
+function pictoHTML(p, o = {}) {
+  const extra = o.cls || '';
+  if (!p?.picto) return `<div class="picto vacio ${extra}"><span class="fb"><b>${esc(p?.texto || '')}</b></span></div>`;
+  const src = IMGCACHE.get(urlPicto(p.picto, { s: 500, byn: o.byn })) || urlPicto(p.picto, o), est = ESTATICA(p.picto, o.s || 500);
+  return `<div class="picto ${extra}"><img src="${src}" data-est="${est}" alt="${esc(p.texto)}" loading="${o.eager ? 'eager' : 'lazy'}" onerror="pictoErr(this)"><span class="fb"><b>${esc(p.texto)}</b></span></div>`;
+}
+async function resolverPicto(q) {
+  const k = String(q || '').toLowerCase().trim();
+  if (!k) return 0;
+  if (S.cache[k]) return S.cache[k];
+  for (const ep of ['bestsearch', 'search']) {
+    try {
+      const r = await fetch(`${API}/es/${ep}/${encodeURIComponent(k)}`);
+      if (r.ok) { const j = await r.json(); if (Array.isArray(j) && j.length) {
+        const exacto = j.find(x => x.keywords?.some(w => (w.keyword || '').toLowerCase() === k)) || j[0];
+        S.cache[k] = exacto._id; return exacto._id; } }
+    } catch (e) { return 0; }
+  }
+  return 0;
+}
+let resolviendo = false;
+async function resolverPendientes() {
+  if (resolviendo) return; resolviendo = true;
+  const todos = [...S.agendas.flatMap(a => a.pasos), ...S.tablero, ...S.emociones, ...S.sistema];
+  const pend = todos.filter(p => !p.picto && p.busqueda);
+  if (pend.length) {
+    await Promise.all(pend.map(async p => { const id = await resolverPicto(p.busqueda); if (id) p.picto = id; }));
+    guardar(); render(); if (P) pRender();
+  }
+  resolviendo = false;
+  pintarLogo();
+}
+async function buscarArasaac(q) {
+  const r = await fetch(`${API}/es/search/${encodeURIComponent(q.trim())}`);
+  if (r.status === 404) return [];
+  if (!r.ok) throw new Error('Error ' + r.status);
+  return await r.json();
+}
+const sis = t => S.sistema.find(x => x.texto === t);
+function pintarLogo() { const p = sis('Educación Física'); $('#logoPicto').innerHTML = p?.picto ? pictoHTML(p, { s: 300 }) : ''; }
+
+/* ---------------- Pictogramas sin internet (IndexedDB del navegador) ---------------- */
+let idb = null, cacheEnCurso = false, cacheTimer = null;
+function idbAbrir() {
+  return new Promise(res => { try { const q = indexedDB.open('panelEF_pictos', 1);
+    q.onupgradeneeded = () => q.result.createObjectStore('img'); q.onsuccess = () => { idb = q.result; res(idb); }; q.onerror = () => res(null);
+  } catch (e) { res(null); } });
+}
+function idbPut(k, v) { return new Promise(res => { try { const tx = idb.transaction('img', 'readwrite'); tx.objectStore('img').put(v, k); tx.oncomplete = () => res(true); tx.onerror = () => res(false); } catch (e) { res(false); } }); }
+function idbVaciar() { return new Promise(res => { try { const tx = idb.transaction('img', 'readwrite'); tx.objectStore('img').clear(); tx.oncomplete = () => res(true); tx.onerror = () => res(false); } catch (e) { res(false); } }); }
+async function cacheCargar() {
+  await idbAbrir(); if (!idb) return;
+  await new Promise(res => { try { const q = idb.transaction('img').objectStore('img').openCursor();
+    q.onsuccess = () => { const c = q.result; if (c) { IMGCACHE.set(c.key, c.value); c.continue(); } else res(); }; q.onerror = res; } catch (e) { res(); } });
+  if (IMGCACHE.size) { render(); pintarLogo(); if (P) pRender(); }
+}
+function pictosEnUso() {
+  const ids = new Set();
+  [...S.agendas.flatMap(a => a.pasos), ...S.tablero, ...S.emociones, ...S.sistema, ...S.calma, ...S.estudiantes.map(e => e.prefs.fichas?.reforzador)]
+    .forEach(p => p?.picto && ids.add(p.picto));
+  return [...ids];
+}
+const aDataURL = b => new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.onerror = () => r(null); f.readAsDataURL(b); });
+async function cacheGuardar(silencioso) {
+  if (cacheEnCurso || !idb) { if (!silencioso && !idb) toast('Este navegador no permite guardar pictogramas.'); return; }
+  cacheEnCurso = true;
+  const variantes = [false]; if (S.estudiantes.some(e => e.prefs.byn)) variantes.push(true);
+  let ok = 0, fallo = 0;
+  for (const id of pictosEnUso()) for (const byn of variantes) {
+    const k = urlPicto(id, { s: 500, byn }); if (IMGCACHE.has(k)) continue;
+    const urls = [k]; if (k.startsWith('https://static')) urls.push(`${API}/${id}?resolution=500&download=false`);
+    let data = null;
+    for (const u of urls) { try { const q = await fetch(u, { mode: 'cors' }); if (q.ok) { data = await aDataURL(await q.blob()); if (data?.startsWith('data:image')) break; data = null; } } catch (e) {} }
+    if (data) { IMGCACHE.set(k, data); await idbPut(k, data); ok++; } else fallo++;
+  }
+  cacheEnCurso = false;
+  S.ajustes.cacheFallo = fallo > 0 && ok === 0; guardar();
+  if (!silencioso) toast(fallo && !ok ? 'No se pudieron guardar: revisa la conexión a internet.' : `Listo: ${IMGCACHE.size} pictogramas disponibles sin internet.`);
+  if (vistaActual === 'ajustes') render();
+}
+function programarCache() { if (!S.ajustes.cacheAuto) return; clearTimeout(cacheTimer); cacheTimer = setTimeout(() => cacheGuardar(true), 4000); }
+
+/* ---------------- Voz ---------------- */
+let voces = [];
+function cargarVoces() { voces = (window.speechSynthesis?.getVoices?.() || []).filter(v => /^es/i.test(v.lang)); }
+if ('speechSynthesis' in window) { cargarVoces(); speechSynthesis.onvoiceschanged = () => { cargarVoces(); if (vistaActual === 'ajustes') render(); }; }
+function hablar(texto, rate) {
+  if (!('speechSynthesis' in window) || !texto) return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(texto);
+    const v = voces.find(v => v.name === S.ajustes.vozNombre) || voces.find(v => /es[-_](DO|MX|US|419)/i.test(v.lang)) || voces[0];
+    if (v) { u.voice = v; u.lang = v.lang; } else u.lang = 'es-ES';
+    u.rate = rate || (P ? P.est.prefs.vozRate : 0.95) || 0.95;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+/* ---------------- UI base ---------------- */
+function toast(t) { $$('.toast').forEach(x => x.remove()); const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); }
+function modal(html, alMontar, capa = 1, ancho = false) {
+  const raiz = $('#modal' + capa);
+  raiz.innerHTML = `<div class="modal-fondo"><div class="modal ${ancho ? 'ancho' : ''}" role="dialog" aria-modal="true"><button class="btn sm cerrar" data-cerrar>✕</button>${html}</div></div>`;
+  const fondo = raiz.firstElementChild;
+  fondo.addEventListener('click', e => { if (e.target === fondo || e.target.closest('[data-cerrar]')) cerrarModal(capa); });
+  alMontar && alMontar(fondo);
+}
+function cerrarModal(capa = 1) { $('#modal' + capa).innerHTML = ''; }
+let escTimes = [];
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  if ($('#modal2').innerHTML) return cerrarModal(2);
+  if ($('#modal1').innerHTML) return cerrarModal(1);
+  if (P) { const t = Date.now(); escTimes = escTimes.filter(x => t - x < 2000); escTimes.push(t);
+    if (escTimes.length >= 3) { escTimes = []; cerrarPanel(); } else toast(`Pulsa Esc ${3 - escTimes.length} ${3 - escTimes.length === 1 ? 'vez' : 'veces'} más para salir del panel`); }
+});
+function confirmar(msg, si) {
+  modal(`<h2>Confirmar</h2><p>${esc(msg)}</p><div class="fila"><button class="btn bad" id="cSi">Sí, continuar</button><button class="btn" data-cerrar>Cancelar</button></div>`,
+    m => $('#cSi', m).onclick = () => { cerrarModal(2); si(); }, 2);
+}
+function descargar(nombre, contenido, tipo) {
+  const blob = new Blob([contenido], { type: tipo });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nombre;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+const est = id => S.estudiantes.find(e => e.id === id);
+const agenda = id => S.agendas.find(a => a.id === id);
+const clasesOrdenadas = () => [...S.agendas].sort((a, b) => (b.fecha || '').localeCompare(a.fecha || '') || a.nombre.localeCompare(b.nombre));
+
+/* ---------------- Buscador de pictogramas ARASAAC ---------------- */
+function elegirPicto(titulo, inicial, cb) {
+  modal(`<h2>${esc(titulo)}</h2>
+    <p class="muted small" style="margin-top:0">Busca en el catálogo de ARASAAC. Usa verbos en infinitivo o sustantivos: «saltar», «aro», «cono», «fila», «silbato».</p>
+    <form class="fila" id="bqForm"><input type="search" id="bq" value="${esc(inicial || '')}" placeholder="Escribe una palabra…" style="flex:1;min-width:200px">
+    <button class="btn pri">Buscar en ARASAAC</button></form>
+    <div id="bqRes" class="grid-res"></div>`, m => {
+    const res = $('#bqRes', m);
+    const buscar = async () => {
+      const q = $('#bq', m).value.trim(); if (!q) return;
+      res.innerHTML = '<p class="muted">Buscando en ARASAAC…</p>';
+      try {
+        const lista = (await buscarArasaac(q)).slice(0, 80);
+        if (!lista.length) { res.innerHTML = '<p class="muted">ARASAAC no tiene resultados para esa palabra. Prueba con un sinónimo.</p>'; return; }
+        res.innerHTML = lista.map(r => { const k = r.keywords?.[0]?.keyword || q;
+          return `<button type="button" class="res" data-id="${r._id}" data-k="${esc(k)}">${pictoHTML({ picto: r._id, texto: k }, { s: 300 })}${esc(k)}<span class="id">ARASAAC #${r._id}</span></button>`; }).join('');
+      } catch (e) { res.innerHTML = '<p class="aviso">No se pudo conectar con la API de ARASAAC. Revisa la conexión a internet y abre el archivo directamente en Chrome o Edge.</p>'; }
+    };
+    $('#bqForm', m).onsubmit = e => { e.preventDefault(); buscar(); };
+    res.onclick = e => { const b = e.target.closest('.res'); if (!b) return; S.cache[b.dataset.k.toLowerCase()] ??= +b.dataset.id; cerrarModal(2); cb({ picto: +b.dataset.id, palabra: b.dataset.k }); };
+    $('#bq', m).focus(); if (inicial) buscar();
+  }, 2);
+}
+
+/* ---------------- Editor de pasos reutilizable ---------------- */
+// opts: { conMin, hechos:Set(ids), actualId, alCambiar() }
+function editorPasos(cont, pasos, opts = {}) {
+  const conMin = opts.conMin !== false;
+  cont.classList.toggle('con-cat', !!opts.conCat && !conMin);
+  const pintar = () => {
+    cont.innerHTML = (pasos.length ? pasos.map((p, i) => {
+      const hecho = opts.hechos?.has(p.id), act = p.id === opts.actualId;
+      return `<div class="paso-row ${hecho ? 'hecho' : ''} ${act ? 'actual' : ''}" data-i="${i}">
+        <span class="num">${i + 1}</span>
+        <button type="button" class="pbtn" data-pic="${i}" title="Cambiar pictograma ARASAAC">${pictoHTML(p, { s: 300 })}</button>
+        <label class="campo small">Texto${hecho ? ' <span class="badge ok">hecho</span>' : act ? ' <span class="badge">ahora</span>' : ''}<input type="text" data-f="texto" value="${esc(p.texto)}"></label>
+        <label class="campo small">Voz<input type="text" data-f="voz" value="${esc(p.voz)}"></label>
+        ${conMin ? `<div class="mv"><label class="campo small" title="Minutos del temporizador visual">Min<input type="number" min="0" max="90" data-f="minutos" value="${p.minutos || 0}"></label><label class="campo small" title="Repeticiones que el estudiante cuenta tocando círculos">Veces<input type="number" min="0" max="30" data-f="veces" value="${p.veces || 0}"></label></div>` : opts.conCat ? `<label class="campo small">Tipo<select data-f="cat" style="border-left:8px solid ${CATS[p.cat || 'misc'][1]}">${Object.entries(CATS).map(([k, [t]]) => `<option value="${k}" ${k === (p.cat || 'misc') ? 'selected' : ''}>${t}</option>`).join('')}</select></label>` : '<span></span>'}
+        <div class="acc">
+          <button type="button" class="btn sm" data-hablar="${i}" title="Escuchar">🔊</button>
+          <button type="button" class="btn sm" data-sub="${i}" title="Subir" ${i === 0 ? 'disabled' : ''}>↑</button>
+          <button type="button" class="btn sm" data-baj="${i}" title="Bajar" ${i === pasos.length - 1 ? 'disabled' : ''}>↓</button>
+          <button type="button" class="btn sm" data-ins="${i}" title="Insertar un paso debajo">＋</button>
+          <button type="button" class="btn sm bad" data-quit="${i}" title="Quitar" ${act ? 'disabled' : ''}>🗑</button>
+        </div></div>`; }).join('') : '<p class="muted">Esta clase aún no tiene pasos.</p>')
+      + `<button type="button" class="btn pri" data-add>+ Añadir paso (pictograma ARASAAC)</button>`;
+  };
+  const cambio = () => { guardar(); programarCache(); opts.alCambiar && opts.alCambiar(); };
+  const nuevoPaso = (pos) => elegirPicto('Añadir paso', '', r => {
+    const t = r.palabra.charAt(0).toUpperCase() + r.palabra.slice(1);
+    pasos.splice(pos, 0, { id: uid(), busqueda: r.palabra, picto: r.picto, texto: t, voz: t, minutos: 0, veces: 0, ...(opts.conCat ? { cat: 'misc' } : {}) });
+    pintar(); cambio();
+  });
+  cont.onclick = e => {
+    const b = e.target.closest('button'); if (!b || b.disabled) return; const d = b.dataset;
+    if (d.add !== undefined) return nuevoPaso(pasos.length);
+    if (d.ins !== undefined) return nuevoPaso(+d.ins + 1);
+    if (d.pic !== undefined) { const p = pasos[+d.pic]; return elegirPicto('Cambiar pictograma', p.busqueda || p.texto, r => { p.picto = r.picto; p.busqueda = r.palabra; pintar(); cambio(); }); }
+    if (d.hablar !== undefined) return hablar(pasos[+d.hablar].voz || pasos[+d.hablar].texto);
+    if (d.sub !== undefined) { const i = +d.sub; [pasos[i - 1], pasos[i]] = [pasos[i], pasos[i - 1]]; }
+    if (d.baj !== undefined) { const i = +d.baj; [pasos[i + 1], pasos[i]] = [pasos[i], pasos[i + 1]]; }
+    if (d.quit !== undefined) pasos.splice(+d.quit, 1);
+    pintar(); cambio();
+  };
+  cont.onchange = e => { if (e.target.dataset.f === 'cat') cont.oninput(e); };
+  cont.oninput = e => {
+    const inp = e.target.closest('[data-f]'); if (!inp) return;
+    const row = inp.closest('.paso-row'), p = pasos[+row.dataset.i], f = inp.dataset.f;
+    if (f === 'minutos') p.minutos = Math.max(0, +inp.value || 0);
+    else if (f === 'veces') p.veces = Math.max(0, Math.min(30, Math.round(+inp.value || 0)));
+    else if (f === 'cat') { p.cat = inp.value; inp.style.borderLeftColor = CATS[p.cat][1]; }
+    else {
+      if (f === 'texto' && (p.voz === p.texto || !p.voz)) { p.voz = inp.value; const vz = row.querySelector('[data-f=voz]'); if (vz) vz.value = inp.value; }
+      p[f] = inp.value;
+    }
+    guardar(); opts.alEscribir && opts.alEscribir();
+  };
+  pintar();
+}
+
+/* =====================================================================
+   VISTAS DOCENTE
+   ===================================================================== */
+let vistaActual = 'inicio', editando = null, selEst = '', selAg = '';
+let filtro = { est: '', desde: '', hasta: '' };
+$('#tabs').onclick = e => { const b = e.target.closest('button[data-vista]'); if (!b) return; vistaActual = b.dataset.vista; render(); };
+function ir(vista) { vistaActual = vista; render(); window.scrollTo(0, 0); }
+function render() {
+  $$('#tabs button').forEach(b => b.classList.toggle('act', b.dataset.vista === vistaActual));
+  const v = $('#vista'); v.onclick = null;
+  ({ inicio: vInicio, clases: vClases, imprimir: vImprimir, estudiantes: vEstudiantes, registro: vRegistro, ajustes: vAjustes })[vistaActual](v);
+}
+
+/* ---------- INICIO ---------- */
+function vInicio(v) {
+  if (!est(selEst)) selEst = S.estudiantes[0]?.id || '';
+  if (!agenda(selAg)) selAg = (clasesOrdenadas().find(a => a.fecha === hoyISO()) || clasesOrdenadas()[0])?.id || '';
+  const ag = agenda(selAg);
+  const hoy = new Date().toDateString();
+  const sesHoy = S.sesiones.filter(s => new Date(s.inicio).toDateString() === hoy);
+  v.innerHTML = `
+  <div class="grid g2">
+    <div class="card">
+      <h2>Preparar la clase</h2>
+      <div class="grid" style="gap:.8rem">
+        <label class="campo">Estudiante
+          <select id="iEst">${S.estudiantes.map(e => `<option value="${e.id}" ${e.id === selEst ? 'selected' : ''}>${esc(e.nombre)} — ${esc(e.necesidad)}</option>`).join('')}</select></label>
+        <label class="campo">Clase
+          <select id="iAg">${clasesOrdenadas().map(a => `<option value="${a.id}" ${a.id === selAg ? 'selected' : ''}>${fISO(a.fecha)} · ${esc(a.nombre)}${a.curso ? ' · ' + esc(a.curso) : ''} (${a.pasos.length} pasos)</option>`).join('')}</select></label>
+        ${ag ? `${ag.objetivo ? `<p class="small" style="margin:0"><b>Objetivo:</b> ${esc(ag.objetivo)}</p>` : ''}
+          <div class="tira-mini">${ag.pasos.map(p => `<div class="it">${pictoHTML(p, { s: 300 })}${esc(p.texto)}</div>`).join('')}</div>` : ''}
+        <div class="fila">
+          <button class="btn" id="iEditar" ${ag ? '' : 'disabled'}>✏️ Editar esta clase</button>
+          <button class="btn" id="iNueva">＋ Nueva clase</button>
+          <button class="btn" id="iOir" ${ag?.pasos.length ? '' : 'disabled'}>🔊 Escuchar</button>
+          <button class="btn" id="iImp" ${ag ? '' : 'disabled'}>🖨 Imprimir</button>
+        </div>
+        <button class="btn pri grande" id="iAbrir" ${!S.estudiantes.length || !ag?.pasos.length ? 'disabled' : ''}>▶ Abrir panel de anticipación</button>
+        ${!S.estudiantes.length ? '<p class="aviso">Primero registra un estudiante en «Estudiantes».</p>' : ''}
+      </div>
+    </div>
+    <div class="card">
+      <h2>Hoy</h2>
+      <div class="kpis">
+        <div class="kpi"><span class="muted small">Sesiones</span><b>${sesHoy.length}</b></div>
+        <div class="kpi"><span class="muted small">Pasos completados</span><b>${sesHoy.reduce((a, s) => a + s.completados.length, 0)}</b></div>
+        <div class="kpi"><span class="muted small">Comunicaciones</span><b>${S.registros.filter(r => r.tipo === 'comunicacion' && new Date(r.ts).toDateString() === hoy).length}</b></div>
+      </div>
+      ${S.sesiones.length ? `<p class="small" style="margin:.8rem 0 0">Último respaldo de datos: <b>${S.ajustes.ultimoRespaldo ? (Math.floor((Date.now() - S.ajustes.ultimoRespaldo) / 864e5) === 0 ? 'hoy' : 'hace ' + Math.floor((Date.now() - S.ajustes.ultimoRespaldo) / 864e5) + ' días') : 'nunca'}</b> <button class="btn sm" id="iResp">⬇ Exportar respaldo</button></p>` : ''}
+      <h3 style="margin-top:1rem">Cómo se usa</h3>
+      <ol class="small" style="padding-left:1.1rem;margin:0">
+        <li><b>Cada clase tiene su propia agenda.</b> Crea la de hoy con «Nueva clase» (desde cero o copiando otra) y ajusta los pasos con pictogramas ARASAAC.</li>
+        <li><b>Antes:</b> el estudiante ve y escucha la secuencia completa.</li>
+        <li><b>Durante:</b> «AHORA» y «DESPUÉS»; al tocar un pictograma, habla. «Terminé» avanza.</li>
+        <li><b>¿Cambió algo?</b> Dentro del panel pulsa «✏️ Cambiar la clase»: el panel avisa del cambio con voz y queda registrado.</li>
+        <li><b>Apoyos:</b> temporizador con aviso «queda un minuto», contador de <b>veces</b>, <b>estrellas</b> hacia un premio y botón <b>Calma</b> con respiración guiada.</li>
+        <li><b>Docente:</b> los controles están en «⚙ Controles del docente» (paso anterior, cambiar la clase, nota rápida).</li>
+        <li><b>Al cierre:</b> el estudiante elige cómo se sintió y qué le gustó más; tú anotas el apoyo.</li>
+        <li>Para salir del panel, <b>mantén pulsado</b> «Salir».</li>
+      </ol>
+      <p class="aviso small" style="margin-top:.8rem">Abre este archivo en Chrome, Edge o Safari (no en una vista previa). Con internet, los pictogramas de ARASAAC se guardan en el dispositivo y luego funcionan también en la cancha sin conexión (${IMGCACHE.size} guardados).</p>
+    </div>
+  </div>`;
+  $('#iEst').onchange = e => { selEst = e.target.value; };
+  $('#iAg').onchange = e => { selAg = e.target.value; render(); };
+  $('#iAbrir').onclick = () => abrirPanel($('#iEst').value, $('#iAg').value);
+  $('#iOir').onclick = () => hablar(fraseAgenda(agenda(selAg)), est(selEst)?.prefs.vozRate);
+  $('#iImp').onclick = () => { imp.clase = selAg; imp.titulo = ''; ir('imprimir'); };
+  $('#iResp') && ($('#iResp').onclick = exportarRespaldo);
+  $('#iEditar').onclick = () => { editando = selAg; ir('clases'); };
+  $('#iNueva').onclick = () => nuevaClase(id => { selAg = id; editando = id; ir('clases'); });
+}
+function fraseAgenda(ag, desde = 0) {
+  const ps = (ag?.pasos || []).slice(desde).map(p => p.voz || p.texto);
+  if (!ps.length) return '';
+  if (ps.length === 1) return `${desde ? '' : 'Hoy en Educación Física: '}${ps[0]}.`;
+  const medio = ps.slice(1, -1).map(t => `después, ${t}`).join('. ');
+  return `${desde ? '' : 'Hoy en Educación Física. '}Primero, ${ps[0]}. ${medio}${medio ? '. ' : ''}Y al final, ${ps[ps.length - 1]}.`;
+}
+function nuevaClase(cb) {
+  modal(`<h2>Nueva clase</h2>
+  <form id="fNueva" class="grid" style="gap:.8rem">
+    <label class="campo">Nombre de la clase<input type="text" name="nombre" required placeholder="Ej.: Lanzamientos y recepciones"></label>
+    <div class="grid g2" style="gap:.8rem">
+      <label class="campo">Fecha<input type="date" name="fecha" value="${hoyISO()}"></label>
+      <label class="campo">Curso / grupo<input type="text" name="curso" placeholder="Ej.: 3.º A"></label>
+    </div>
+    <label class="campo">Partir de…<select name="base"><option value="">Clase vacía</option>
+      <optgroup label="Plantillas">${Object.entries(PLANTILLAS).map(([k, [t]]) => `<option value="${k}">${t}</option>`).join('')}</optgroup>
+      <optgroup label="Copiar una clase existente">${clasesOrdenadas().map(a => `<option value="${a.id}">${esc(a.nombre)} · ${fISO(a.fecha)} (${a.pasos.length} pasos)</option>`).join('')}</optgroup></select>
+      <span class="ay">Copiar una clase anterior ahorra tiempo: mantén la misma estructura de inicio y cierre y cambia solo la parte central.</span></label>
+    <div class="fila"><button class="btn pri">Crear y editar</button><button type="button" class="btn" data-cerrar>Cancelar</button></div>
+  </form>`, m => {
+    const f = $('#fNueva', m);
+    f.onsubmit = ev => {
+      ev.preventDefault();
+      const pl = PLANTILLAS[f.base.value], base = agenda(f.base.value);
+      const pasos = pl ? pl[1]() : base ? base.pasos : [];
+      const c = clase(f.nombre.value.trim(), pasos.map(p => ({ ...p, id: uid() })), { fecha: f.fecha.value, curso: f.curso.value.trim(), objetivo: base?.objetivo || '' });
+      S.agendas.push(c); guardar(); cerrarModal(); cb(c.id);
+    };
+    f.nombre.focus();
+  });
+}
+
+/* ---------- CLASES (editor por clase) ---------- */
+function listaEditando() {
+  if (editando === 'tablero') return { nombre: 'Tablero de comunicación', pasos: S.tablero, especial: true };
+  if (editando === 'emociones') return { nombre: 'Emociones del cierre', pasos: S.emociones, especial: true };
+  if (editando === 'calma') return { nombre: 'Rincón de calma', pasos: S.calma, especial: true };
+  return agenda(editando);
+}
+function vClases(v) {
+  if (!listaEditando()) editando = clasesOrdenadas()[0]?.id || 'tablero';
+  const L = listaEditando();
+  v.innerHTML = `
+  <div class="editor">
+    <div class="card lista-ag">
+      <div class="fila" style="justify-content:space-between"><h3 style="margin:0">Clases</h3><button class="btn sm pri" id="cNueva">＋ Nueva</button></div>
+      <input type="search" id="cFiltro" placeholder="Buscar clase…" style="margin:.6rem 0">
+      <div id="cLista">${clasesOrdenadas().map(a => `<button data-sel="${a.id}" class="${a.id === editando ? 'act' : ''}" data-txt="${esc((a.nombre + ' ' + a.curso).toLowerCase())}"><b>${esc(a.nombre)}</b><br><span class="muted small">${fISO(a.fecha)}${a.curso ? ' · ' + esc(a.curso) : ''} · ${a.pasos.length} pasos</span></button>`).join('')}</div>
+      <h3 style="margin-top:1rem">Pictogramas fijos del panel</h3>
+      <button data-sel="tablero" class="${editando === 'tablero' ? 'act' : ''}">Tablero de comunicación</button>
+      <button data-sel="emociones" class="${editando === 'emociones' ? 'act' : ''}">Emociones del cierre</button>
+      <button data-sel="calma" class="${editando === 'calma' ? 'act' : ''}">Rincón de calma</button>
+    </div>
+    <div class="card">
+      ${L.especial ? `<h2>${esc(L.nombre)}</h2><p class="muted small">Se muestran en todas las clases. ${editando === 'tablero' ? 'Aparecen en la barra «Quiero decir…». El <b>tipo</b> colorea el borde según la clave de colores de la CAA (clave Fitzgerald modificada): personas amarillo, acciones verde, cosas naranja, descriptivos azul, social rosa.' : editando === 'calma' ? 'Estrategias que aparecen cuando el estudiante pulsa «Calma» en el panel, junto con la respiración guiada.' : 'Aparecen al final: «¿Cómo te sentiste?».'}</p>` : `
+      <div class="grid" style="gap:.7rem;grid-template-columns:2fr 1fr 1fr;margin-bottom:.6rem">
+        <label class="campo">Nombre de la clase<input type="text" id="cNombre" value="${esc(L.nombre)}"></label>
+        <label class="campo">Fecha<input type="date" id="cFecha" value="${esc(L.fecha || '')}"></label>
+        <label class="campo">Curso / grupo<input type="text" id="cCurso" value="${esc(L.curso || '')}"></label>
+      </div>
+      <label class="campo" style="margin-bottom:.7rem">Objetivo o nota de la clase<input type="text" id="cObj" value="${esc(L.objetivo || '')}" placeholder="Ej.: Lanzar y recibir con dos manos"></label>`}
+      <div class="fila" style="margin-bottom:.6rem">
+        <button class="btn sm" id="cOir">🔊 Escuchar</button>
+        ${L.especial ? '' : `<button class="btn sm" id="cDup">Duplicar para otra clase</button><button class="btn sm bad" id="cDel">Eliminar</button>
+        <button class="btn sm" id="cImp">🖨 Imprimir</button>
+        <button class="btn sm ok" id="cUsar" style="margin-left:auto">▶ Usar en el panel</button>`}
+      </div>
+      <p class="muted small">Toca un pictograma para cambiarlo por otro de ARASAAC. <b>Texto</b> = lo que se ve. <b>Voz</b> = lo que dice al tocarlo.${L.especial ? '' : ' <b>Min</b> = temporizador visual con aviso antes de cambiar (0 = sin temporizador). <b>Veces</b> = repeticiones que el estudiante cuenta tocando círculos (0 = sin contador).'} «＋» inserta un paso debajo.</p>
+      <div id="cPasos"></div>
+    </div>
+  </div>`;
+  editorPasos($('#cPasos'), L.pasos, { conMin: !L.especial, conCat: editando === 'tablero', alCambiar: () => {
+    const b = $(`#cLista button[data-sel="${L.id}"] .small`); if (b) b.textContent = `${fISO(L.fecha)}${L.curso ? ' · ' + L.curso : ''} · ${L.pasos.length} pasos`; } });
+  v.onclick = e => { const b = e.target.closest('[data-sel]'); if (b) { editando = b.dataset.sel; render(); } };
+  $('#cFiltro').oninput = e => { const q = e.target.value.toLowerCase(); $$('#cLista button').forEach(b => b.classList.toggle('oculto', !b.dataset.txt.includes(q))); };
+  $('#cNueva').onclick = () => nuevaClase(id => { editando = id; render(); });
+  $('#cOir').onclick = () => hablar(L.especial ? L.pasos.map(p => p.voz).join('. ') : fraseAgenda(L));
+  if (!L.especial) {
+    const campo = (sel, k) => { $(sel).oninput = e => { L[k] = e.target.value; guardar(); }; $(sel).onchange = () => render(); };
+    campo('#cNombre', 'nombre'); campo('#cFecha', 'fecha'); campo('#cCurso', 'curso');
+    $('#cObj').oninput = e => { L.objetivo = e.target.value; guardar(); };
+    $('#cDup').onclick = () => { const c = JSON.parse(JSON.stringify(L)); c.id = uid(); c.nombre += ' (copia)'; c.fecha = hoyISO(); c.pasos.forEach(p => p.id = uid()); S.agendas.push(c); editando = c.id; guardar(); render(); toast('Clase duplicada con fecha de hoy'); };
+    $('#cDel').onclick = () => confirmar(`¿Eliminar la clase «${L.nombre}»? El registro de sesiones se conserva.`, () => { S.agendas = S.agendas.filter(a => a.id !== L.id); editando = null; guardar(); render(); });
+    $('#cUsar').onclick = () => { selAg = L.id; ir('inicio'); };
+    $('#cImp').onclick = () => { imp.clase = L.id; imp.titulo = ''; ir('imprimir'); };
+  }
+}
+
+/* ---------- ESTUDIANTES ---------- */
+function vEstudiantes(v) {
+  v.innerHTML = `
+  <div class="fila" style="justify-content:space-between;margin-bottom:1rem"><h2 style="margin:0">Estudiantes</h2><button class="btn pri" id="eNuevo">+ Nuevo estudiante</button></div>
+  ${S.estudiantes.length ? `<div class="grid g3">${S.estudiantes.map(e => {
+    const n = S.sesiones.filter(s => s.estudianteId === e.id).length;
+    return `<div class="card">
+      <div class="fila" style="justify-content:space-between"><h3 style="margin:0">${esc(e.nombre)}</h3><span class="badge">${esc(e.necesidad)}</span></div>
+      <p class="muted small" style="margin:.3rem 0">${esc(e.curso)}${e.centro ? ' · ' + esc(e.centro) : ''}</p>
+      ${e.notas ? `<p class="small">${esc(e.notas)}</p>` : ''}
+      <p class="small muted">${e.prefs.vista === 'tira' ? 'Secuencia completa' : 'Solo ahora / después'} · voz ${e.prefs.vozRate}× · ${e.prefs.temporizador ? 'con' : 'sin'} temporizador${e.prefs.byn ? ' · blanco y negro' : ''}${e.prefs.fichas?.activo ? ' · ⭐ trabaja para: ' + esc(e.prefs.fichas.reforzador?.texto || 'premio') : ''}${e.prefs.calma === false ? '' : ' · botón Calma'} · ${n} sesiones</p>
+      <div class="fila"><button class="btn sm" data-ed="${e.id}">Editar</button><button class="btn sm" data-reg="${e.id}">Ver registro</button><button class="btn sm bad" data-del="${e.id}">Eliminar</button></div>
+    </div>`; }).join('')}</div>` : '<div class="card vacio">Aún no hay estudiantes.</div>'}`;
+  $('#eNuevo').onclick = () => formEstudiante();
+  v.onclick = e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.ed) formEstudiante(est(b.dataset.ed));
+    if (b.dataset.reg) { filtro.est = b.dataset.reg; ir('registro'); }
+    if (b.dataset.del) confirmar('¿Eliminar este estudiante? Sus registros se conservan en el historial.', () => { S.estudiantes = S.estudiantes.filter(x => x.id !== b.dataset.del); guardar(); render(); });
+  };
+}
+function formEstudiante(e) {
+  const nuevo = !e;
+  e = e || { id: uid(), nombre: '', curso: '', centro: '', necesidad: NECESIDADES[0], notas: '', prefs: { vozRate: 0.9, mostrarTexto: true, vista: 'tira', temporizador: true, tamano: 'grande', byn: false, hechos: 'marcar', calma: true, fichas: { activo: false, n: 0, reforzador: null } } };
+  let refTmp = e.prefs.fichas?.reforzador ? { ...e.prefs.fichas.reforzador } : null;
+  modal(`<h2>${nuevo ? 'Nuevo estudiante' : 'Editar estudiante'}</h2>
+  <form id="fEst" class="grid" style="gap:.8rem">
+    <div class="grid g2" style="gap:.8rem">
+      <label class="campo">Nombre o código<input type="text" name="nombre" required value="${esc(e.nombre)}"><span class="ay">Puedes usar iniciales o un código para proteger la privacidad.</span></label>
+      <label class="campo">Curso / grado<input type="text" name="curso" value="${esc(e.curso)}"></label>
+      <label class="campo">Centro educativo<input type="text" name="centro" value="${esc(e.centro || '')}"></label>
+      <label class="campo">Necesidad específica de apoyo<select name="necesidad">${NECESIDADES.map(n => `<option ${n === e.necesidad ? 'selected' : ''}>${n}</option>`).join('')}</select></label>
+    </div>
+    <label class="campo">Notas para el docente<textarea name="notas" placeholder="Intereses, reforzadores, sensibilidades sensoriales, señales de alerta, estrategias que funcionan…">${esc(e.notas)}</textarea></label>
+    <h3>Ajustes del panel</h3>
+    <div class="grid g2" style="gap:.8rem">
+      <label class="campo">Vista<select name="vista"><option value="tira" ${e.prefs.vista === 'tira' ? 'selected' : ''}>Secuencia completa + ahora / después</option><option value="foco" ${e.prefs.vista === 'foco' ? 'selected' : ''}>Solo ahora / después (menos estímulos)</option></select></label>
+      <label class="campo">Tamaño<select name="tamano"><option value="normal" ${e.prefs.tamano === 'normal' ? 'selected' : ''}>Normal</option><option value="grande" ${e.prefs.tamano === 'grande' ? 'selected' : ''}>Grande</option></select></label>
+      <label class="campo"><span>Velocidad de la voz: <output id="oRate">${e.prefs.vozRate}</output>×</span><input type="range" name="vozRate" min="0.5" max="1.3" step="0.05" value="${e.prefs.vozRate}"></label>
+      <div class="grid" style="gap:.3rem">
+        <label class="chk"><input type="checkbox" name="mostrarTexto" ${e.prefs.mostrarTexto ? 'checked' : ''}> Mostrar texto bajo el pictograma</label>
+        <label class="chk"><input type="checkbox" name="temporizador" ${e.prefs.temporizador ? 'checked' : ''}> Temporizador visual</label>
+        <label class="chk"><input type="checkbox" name="byn" ${e.prefs.byn ? 'checked' : ''}> Pictogramas ARASAAC en blanco y negro</label>
+        <label class="campo" style="margin-top:.3rem">Pasos terminados<select name="hechos"><option value="marcar" ${e.prefs.hechos !== 'quitar' ? 'selected' : ''}>Marcarlos con ✔ (quedan visibles)</option><option value="quitar" ${e.prefs.hechos === 'quitar' ? 'selected' : ''}>Quitarlos de la agenda</option></select></label>
+      </div>
+    </div>
+    <h3>Autorregulación y motivación</h3>
+    <label class="chk"><input type="checkbox" name="calma" ${e.prefs.calma !== false ? 'checked' : ''}> Mostrar el botón «Calma» (respiración guiada y estrategias del rincón de calma)</label>
+    <label class="chk"><input type="checkbox" name="fichasOn" ${e.prefs.fichas?.activo ? 'checked' : ''}> Economía de fichas: gana una estrella por cada paso completado</label>
+    <div class="grid g2" style="gap:.8rem">
+      <div class="ref-box"><div id="refPic">${refTmp ? pictoHTML(refTmp, { s: 300 }) : ''}</div>
+        <div class="grid" style="gap:.3rem;flex:1"><b class="small">Estoy trabajando para…</b>
+        <input type="text" name="refTexto" value="${esc(refTmp?.texto || '')}" placeholder="Ej.: Jugar con la pelota">
+        <button type="button" class="btn sm" id="refBtn">Elegir premio en ARASAAC</button></div></div>
+      <label class="campo">Estrellas necesarias<input type="number" name="fichasN" min="0" max="20" value="${e.prefs.fichas?.n || 0}"><span class="ay">0 = una por cada paso de la clase.</span></label>
+    </div>
+    <div class="fila"><button class="btn pri">Guardar</button><button type="button" class="btn" id="probarVoz">🔊 Probar voz</button><button type="button" class="btn" data-cerrar>Cancelar</button></div>
+  </form>`, m => {
+    const f = $('#fEst', m);
+    $('#refBtn', m).onclick = () => elegirPicto('Premio o reforzador', 'jugar', r => {
+      const t = f.refTexto.value.trim() || r.palabra.charAt(0).toUpperCase() + r.palabra.slice(1);
+      refTmp = { picto: r.picto, busqueda: r.palabra, texto: t, voz: t };
+      f.refTexto.value = t; $('#refPic', m).innerHTML = pictoHTML(refTmp, { s: 300 });
+    });
+    f.vozRate.oninput = () => $('#oRate', m).textContent = f.vozRate.value;
+    $('#probarVoz', m).onclick = () => hablar(`Hola ${f.nombre.value || ''}. Vamos a jugar en Educación Física.`, +f.vozRate.value);
+    f.onsubmit = ev => {
+      ev.preventDefault();
+      Object.assign(e, { nombre: f.nombre.value.trim(), curso: f.curso.value.trim(), centro: f.centro.value.trim(), necesidad: f.necesidad.value, notas: f.notas.value.trim() });
+      if (refTmp) { refTmp.texto = f.refTexto.value.trim() || refTmp.texto; refTmp.voz = refTmp.texto; }
+      else if (f.refTexto.value.trim()) refTmp = { picto: null, busqueda: '', texto: f.refTexto.value.trim(), voz: f.refTexto.value.trim() };
+      e.prefs = { vozRate: +f.vozRate.value, mostrarTexto: f.mostrarTexto.checked, vista: f.vista.value, temporizador: f.temporizador.checked, tamano: f.tamano.value, byn: f.byn.checked, hechos: f.hechos.value,
+        calma: f.calma.checked, fichas: { activo: f.fichasOn.checked, n: Math.max(0, Math.min(20, +f.fichasN.value || 0)), reforzador: refTmp } };
+      programarCache();
+      if (nuevo) S.estudiantes.push(e);
+      guardar(); cerrarModal(); render(); toast('Estudiante guardado');
+    };
+  });
+}
+
+
+/* ---------- IMPRIMIR (carteles, tableros y tarjetas) ---------- */
+let imp = { clase: '', formato: 'cartel', tam: 'auto', papel: 'letter', texto: true, byn: false, mayus: false, titulo: '', fuente: 'clase', conEmo: true, est: '', nFichas: 0 };
+const FORMATOS = {
+  cartel:   ['Cartel de la clase', 'La secuencia completa en grande para pegar en la cancha o el aula. Horizontal.'],
+  vertical: ['Agenda vertical con casillas', 'Un paso por fila y casilla «Terminado» para marcar o pegar con velcro.'],
+  tablero:  ['Tablero de comunicación', '«Quiero decir…» con colores por tipo de palabra y «¿Cómo me siento?».'],
+  tarjetas: ['Tarjetas recortables', 'Pictogramas sueltos con línea de corte para plastificar y usar con velcro.'],
+  ahora:    ['Plantilla Ahora / Después', 'Tablero físico para colocar las tarjetas: AHORA, DESPUÉS y TERMINADO.'],
+  fichas:   ['Tablero de estrellas', '«Estoy trabajando para…» con el premio del estudiante y casillas para pegar estrellas.'],
+  calma:    ['Tarjeta del rincón de calma', 'Estrategias de calma con pictogramas y guía de respiración.']
+};
+const TAM_CM = { cartel: { pequeno: 5, mediano: 6.5, grande: 8.5 }, vertical: { pequeno: 3.2, mediano: 4.2, grande: 5.5 }, tablero: { pequeno: 3.8, mediano: 4.6, grande: 6 }, tarjetas: { pequeno: 4.5, mediano: 6, grande: 8 }, ahora: { pequeno: 6, mediano: 6, grande: 6 }, fichas: { pequeno: 6, mediano: 6, grande: 6 }, calma: { pequeno: 4.5, mediano: 6, grande: 8 } };
+const HORIZ = { cartel: true, ahora: true, fichas: true };
+const PAPEL_MM = { letter: [215.9, 279.4], a4: [210, 297] };
+const CON_AUTO = { cartel: true, vertical: true, tablero: true, calma: true };
+// Calcula el tamaño de pictograma (cm) para que todo quepa en una sola hoja
+function ajustarCm(secciones) {
+  let [W, H] = PAPEL_MM[imp.papel]; if (HORIZ[imp.formato]) [W, H] = [H, W];
+  W -= 20; H -= 20 + 30 + 6 + 10;                             // márgenes, cabecera y pie
+  const extra = (secciones.length - 1) * 16 + (imp.formato === 'tablero' && S.ajustes.fitzgerald ? 10 : 0);
+  for (let c = 9; c >= 2.5; c -= 0.1) {
+    const mm = c * 10;
+    if (imp.formato === 'vertical') { const n = secciones[0]; if (n * (mm + 7) <= H) return +c.toFixed(1); continue; }
+    const cw = mm + 6.6, chh = mm * (imp.texto ? 1.22 : 1) + 6.6;
+    const cols = Math.floor((W + 5) / (cw + 5)); if (cols < 1) continue;
+    const alto = secciones.reduce((a, n) => { const r = Math.ceil(n / cols); return a + r * chh + Math.max(0, r - 1) * 5; }, 0) + extra;
+    if (alto <= H) return +c.toFixed(1);
+  }
+  return 2.5;
+}
+
+function hojasImpresion() {
+  const ag = agenda(imp.clase);
+  let cm = TAM_CM[imp.formato][imp.tam] || TAM_CM[imp.formato].mediano;
+  if (imp.tam === 'auto' && CON_AUTO[imp.formato]) {
+    if (imp.formato === 'tablero') cm = ajustarCm(imp.conEmo ? [S.tablero.length, S.emociones.length] : [S.tablero.length]);
+    else if (imp.formato === 'calma') cm = ajustarCm([S.calma.length]);
+    else if (ag?.pasos.length) cm = ajustarCm([ag.pasos.length]);
+  }
+  const o = { byn: imp.byn, eager: true };
+  const cls = `hoja ${imp.papel} ${HORIZ[imp.formato] ? 'horiz' : ''} ${imp.mayus ? 'mayus' : ''}`;
+  const pie = `<div class="h-pie">Pictogramas: Sergio Palao · ARASAAC (https://arasaac.org) · Gobierno de Aragón · Licencia CC BY-NC-SA. Uso educativo sin fines comerciales.</div>`;
+  const logo = sis('Educación Física');
+  const cab = (titulo, sub) => `<div class="h-cab">${logo?.picto ? pictoHTML(logo, { s: 300, ...o }) : ''}<div><h1>${esc(titulo)}</h1>${sub ? `<p>${sub}</p>` : ''}</div></div>`;
+  const tarjeta = (p, n, borde) => `<div class="ic ${imp.formato === 'tarjetas' ? 'cortar' : ''}" style="width:${cm}cm;${borde ? `border-color:${borde};border-width:1.6mm;background:${borde}1f` : ''}">
+      ${n ? `<div class="n">${n}</div>` : ''}${pictoHTML(p, o)}${imp.texto ? `<div class="t" style="font-size:${Math.max(3.6, cm * 0.85).toFixed(1)}mm">${esc(p.texto)}</div>` : ''}</div>`;
+  const subClase = ag ? [fISO(ag.fecha), ag.curso, ag.objetivo].filter(x => x && x !== 'sin fecha').map(esc).join(' · ') : '';
+
+  if (imp.formato === 'cartel') {
+    if (!ag) return '<p class="muted">Elige una clase.</p>';
+    return `<div class="${cls}">${cab(imp.titulo || ag.nombre, subClase)}
+      <div class="h-pasos">${ag.pasos.map((p, i) => tarjeta(p, i + 1)).join('')}</div>${pie}</div>`;
+  }
+  if (imp.formato === 'vertical') {
+    if (!ag) return '<p class="muted">Elige una clase.</p>';
+    return `<div class="${cls}">${cab(imp.titulo || ag.nombre, subClase)}
+      <table class="h-tabla" style="font-size:${Math.max(6, cm * 1.9).toFixed(1)}mm">${ag.pasos.map((p, i) => `<tr><td class="num">${i + 1}</td>
+        <td style="width:${cm + 0.6}cm"><div style="width:${cm}cm">${pictoHTML(p, o)}</div></td>
+        <td><b>${imp.texto ? esc(p.texto) : ''}</b></td><td class="casilla"><div></div>Terminado</td></tr>`).join('')}</table>${pie}</div>`;
+  }
+  if (imp.formato === 'tablero') {
+    const col = p => S.ajustes.fitzgerald ? CATS[p.cat || 'misc'][1] : '';
+    return `<div class="${cls}">${cab(imp.titulo || 'Quiero decir…', 'Tablero de comunicación · Educación Física')}
+      <div class="h-pasos">${S.tablero.map(p => tarjeta(p, 0, col(p))).join('')}</div>
+      ${imp.conEmo ? `<div class="h-sec">¿Cómo me siento?</div><div class="h-pasos">${S.emociones.map(p => tarjeta(p, 0)).join('')}</div>` : ''}
+      ${S.ajustes.fitzgerald ? `<div class="h-leyenda">${Object.values(CATS).map(([t, c]) => `<span><i style="background:${c}"></i>${t}</span>`).join('')}</div>` : ''}
+      ${pie}</div>`;
+  }
+  if (imp.formato === 'tarjetas') {
+    const lista = imp.fuente === 'tablero' ? S.tablero : imp.fuente === 'emociones' ? S.emociones : imp.fuente === 'calma' ? S.calma
+      : imp.fuente === 'todo' ? [...(ag?.pasos || []), ...S.tablero, ...S.emociones] : (ag?.pasos || []);
+    if (!lista.length) return '<p class="muted">No hay pictogramas para imprimir.</p>';
+    return `<div class="${cls}"><div class="h-pasos" style="gap:0;justify-content:flex-start">${lista.map(p => tarjeta(p, 0)).join('')}</div>${pie}</div>`;
+  }
+  if (imp.formato === 'ahora') {
+    const t = sis('Terminé');
+    return `<div class="${cls}">
+      <div class="h-ad"><div class="caja"><h2>AHORA</h2><div class="hueco">Pega aquí el pictograma</div></div>
+      <div class="caja desp"><h2>DESPUÉS</h2><div class="hueco">Pega aquí el pictograma</div></div></div>
+      <div class="h-term">${t?.picto ? pictoHTML(t, o) : ''}<b>TERMINADO</b><div class="hueco"></div></div>${pie}</div>`;
+  }
+  if (imp.formato === 'fichas') {
+    const e = est(imp.est) || S.estudiantes[0], ref = e?.prefs.fichas?.reforzador;
+    const n = imp.nFichas || e?.prefs.fichas?.n || 5;
+    return `<div class="${cls}">${cab(imp.titulo || 'Estoy trabajando para…', e ? esc(e.nombre) : '')}
+      <div class="h-premio">${ref?.picto ? pictoHTML(ref, o) : ''}<b>${esc(ref?.texto || 'Mi premio: ______________')}</b></div>
+      <div class="h-fichas">${Array.from({ length: n }, () => '<div></div>').join('')}</div>
+      <p style="text-align:center;font-size:5.5mm;margin:0">Cuando complete todas las casillas, ¡consigo mi premio!</p>${pie}</div>`;
+  }
+  if (imp.formato === 'calma') {
+    return `<div class="${cls}">${cab(imp.titulo || 'Cuando me siento nervioso…', 'Rincón de calma · Educación Física')}
+      <div class="h-resp"><span>Inhalo 1 · 2 · 3 · 4</span><span>Exhalo 1 · 2 · 3 · 4</span></div>
+      <div class="h-pasos">${S.calma.map(p => tarjeta(p, 0)).join('')}</div>${pie}</div>`;
+  }
+  return '';
+}
+
+function vImprimir(v) {
+  if (!agenda(imp.clase)) imp.clase = selAg && agenda(selAg) ? selAg : clasesOrdenadas()[0]?.id || '';
+  const ag = agenda(imp.clase);
+  const usaClase = ['cartel', 'vertical'].includes(imp.formato) || (imp.formato === 'tarjetas' && ['clase', 'todo'].includes(imp.fuente));
+  v.innerHTML = `
+  <div class="imp-layout">
+    <div class="card imp-op no-print">
+      <h2>Imprimir</h2>
+      <div class="formatos">${Object.entries(FORMATOS).map(([k, [t, d]]) => `<label><input type="radio" name="fmt" value="${k}" ${k === imp.formato ? 'checked' : ''}><span><b>${t}</b><span class="small muted">${d}</span></span></label>`).join('')}</div>
+      <div class="grid" style="gap:.7rem;margin-top:1rem">
+        ${imp.formato === 'tarjetas' ? `<label class="campo">Qué tarjetas<select id="pFuente">
+          <option value="clase" ${imp.fuente === 'clase' ? 'selected' : ''}>Pasos de la clase</option>
+          <option value="tablero" ${imp.fuente === 'tablero' ? 'selected' : ''}>Tablero de comunicación</option>
+          <option value="emociones" ${imp.fuente === 'emociones' ? 'selected' : ''}>Emociones</option>
+          <option value="calma" ${imp.fuente === 'calma' ? 'selected' : ''}>Rincón de calma</option>
+          <option value="todo" ${imp.fuente === 'todo' ? 'selected' : ''}>Todo (clase + tablero + emociones)</option></select></label>` : ''}
+        ${usaClase ? `<label class="campo">Clase<select id="pClase">${clasesOrdenadas().map(a => `<option value="${a.id}" ${a.id === imp.clase ? 'selected' : ''}>${fISO(a.fecha)} · ${esc(a.nombre)}</option>`).join('')}</select></label>` : ''}
+        ${imp.formato === 'fichas' ? `<label class="campo">Estudiante<select id="pEst">${S.estudiantes.map(x => `<option value="${x.id}" ${x.id === (imp.est || S.estudiantes[0]?.id) ? 'selected' : ''}>${esc(x.nombre)}</option>`).join('')}</select><span class="ay">El premio se toma de su ficha (Estudiantes → Economía de fichas).</span></label>
+          <label class="campo">Número de casillas<input type="number" id="pNF" min="1" max="20" value="${imp.nFichas || est(imp.est || S.estudiantes[0]?.id)?.prefs.fichas?.n || 5}"></label>` : ''}
+        ${['cartel', 'vertical', 'tablero', 'fichas', 'calma'].includes(imp.formato) ? `<label class="campo">Título del cartel<input type="text" id="pTitulo" value="${esc(imp.titulo)}" placeholder="${esc({ tablero: 'Quiero decir…', fichas: 'Estoy trabajando para…', calma: 'Cuando me siento nervioso…' }[imp.formato] || ag?.nombre || '')}"></label>` : ''}
+        ${!['ahora', 'fichas'].includes(imp.formato) ? `<label class="campo">Tamaño de los pictogramas<select id="pTam">
+          ${CON_AUTO[imp.formato] ? `<option value="auto" ${imp.tam === 'auto' ? 'selected' : ''}>Ajustar a una hoja (recomendado)</option>` : ''}
+          <option value="pequeno" ${imp.tam === 'pequeno' ? 'selected' : ''}>Pequeño (${TAM_CM[imp.formato].pequeno} cm)</option>
+          <option value="mediano" ${imp.tam === 'mediano' || (imp.tam === 'auto' && !CON_AUTO[imp.formato]) ? 'selected' : ''}>Mediano (${TAM_CM[imp.formato].mediano} cm)</option>
+          <option value="grande" ${imp.tam === 'grande' ? 'selected' : ''}>Grande (${TAM_CM[imp.formato].grande} cm)</option></select></label>` : ''}
+        <label class="campo">Papel<select id="pPapel"><option value="letter" ${imp.papel === 'letter' ? 'selected' : ''}>Carta (8½ × 11 in)</option><option value="a4" ${imp.papel === 'a4' ? 'selected' : ''}>A4</option></select></label>
+        <label class="chk"><input type="checkbox" id="pTexto" ${imp.texto ? 'checked' : ''}> Texto bajo el pictograma</label>
+        <label class="chk"><input type="checkbox" id="pMayus" ${imp.mayus ? 'checked' : ''}> Texto en MAYÚSCULAS</label>
+        <label class="chk"><input type="checkbox" id="pByn" ${imp.byn ? 'checked' : ''}> Pictogramas en blanco y negro (ahorra tinta)</label>
+        ${imp.formato === 'tablero' ? `<label class="chk"><input type="checkbox" id="pEmo" ${imp.conEmo ? 'checked' : ''}> Incluir «¿Cómo me siento?»</label>` : ''}
+        <button class="btn pri grande" id="pImprimir">🖨 Imprimir o guardar PDF</button>
+        <p class="small muted" style="margin:0">En la ventana de impresión elige la impresora o «Guardar como PDF». Para carteles grandes puedes imprimir y plastificar.</p>
+      </div>
+    </div>
+    <div class="vista-previa"><div class="zoom" id="pPrevia">${hojasImpresion()}</div></div>
+  </div>`;
+  const upd = (k, val) => { imp[k] = val; render(); };
+  $$('input[name=fmt]').forEach(r => r.onchange = () => upd('formato', r.value));
+  $('#pFuente') && ($('#pFuente').onchange = e => upd('fuente', e.target.value));
+  $('#pClase') && ($('#pClase').onchange = e => { imp.titulo = ''; upd('clase', e.target.value); });
+  $('#pTitulo') && ($('#pTitulo').oninput = e => { imp.titulo = e.target.value; $('#pPrevia').innerHTML = hojasImpresion(); });
+  $('#pTam') && ($('#pTam').onchange = e => upd('tam', e.target.value));
+  $('#pPapel').onchange = e => upd('papel', e.target.value);
+  $('#pTexto').onchange = e => upd('texto', e.target.checked);
+  $('#pMayus').onchange = e => upd('mayus', e.target.checked);
+  $('#pByn').onchange = e => upd('byn', e.target.checked);
+  $('#pEmo') && ($('#pEmo').onchange = e => upd('conEmo', e.target.checked));
+  $('#pEst') && ($('#pEst').onchange = e => { imp.nFichas = 0; upd('est', e.target.value); });
+  $('#pNF') && ($('#pNF').onchange = e => upd('nFichas', Math.max(1, Math.min(20, +e.target.value || 5))));
+  $('#pImprimir').onclick = imprimirAhora;
+}
+
+async function imprimirAhora() {
+  const z = $('#zonaImpresion');
+  z.innerHTML = hojasImpresion();
+  let st = $('#estiloPagina'); if (!st) { st = document.createElement('style'); st.id = 'estiloPagina'; document.head.appendChild(st); }
+  st.textContent = `@page{size:${imp.papel === 'a4' ? 'A4' : 'letter'} ${HORIZ[imp.formato] ? 'landscape' : 'portrait'};margin:10mm}`;
+  document.body.classList.add('imprimiendo');
+  z.style.display = 'block'; z.style.position = 'absolute'; z.style.left = '-99999px';   // carga las imágenes antes de imprimir
+  toast('Preparando pictogramas para imprimir…');
+  await Promise.all($$('img', z).map(i => i.complete ? 1 : new Promise(r => { i.addEventListener('load', r, { once: true }); i.addEventListener('error', r, { once: true }); setTimeout(r, 8000); })));
+  z.removeAttribute('style');
+  const fin = () => { document.body.classList.remove('imprimiendo'); z.innerHTML = ''; window.removeEventListener('afterprint', fin); };
+  window.addEventListener('afterprint', fin);
+  try { window.print(); } catch (e) { toast('Este visor no permite imprimir. Abre el archivo en Chrome o Edge.'); }
+  setTimeout(() => { if (!matchMedia('print').matches) fin(); }, 1500);
+}
+
+/* ---------- REGISTRO ---------- */
+function datosFiltrados() {
+  const d0 = filtro.desde ? new Date(filtro.desde + 'T00:00:00').getTime() : 0;
+  const d1 = filtro.hasta ? new Date(filtro.hasta + 'T23:59:59').getTime() : Infinity;
+  const ok = (id, ts) => (!filtro.est || id === filtro.est) && ts >= d0 && ts <= d1;
+  return {
+    ses: S.sesiones.filter(s => ok(s.estudianteId, s.inicio)).sort((a, b) => b.inicio - a.inicio),
+    reg: S.registros.filter(r => ok(r.estudianteId, r.ts)).sort((a, b) => b.ts - a.ts),
+    obs: S.observaciones.filter(o => ok(o.estudianteId, o.ts))
+  };
+}
+function contar(arr) { const m = {}; arr.forEach(x => { if (x) m[x] = (m[x] || 0) + 1; }); return Object.entries(m).sort((a, b) => b[1] - a[1]); }
+function barras(pares) {
+  if (!pares.length) return '<p class="muted small">Sin datos todavía.</p>';
+  const max = Math.max(...pares.map(p => p[1]));
+  return pares.map(([k, n]) => `<div class="barra"><span>${esc(k)}</span><div class="t"><i style="width:${(n / max) * 100}%"></i></div><b>${n}</b></div>`).join('');
+}
+const nombreEst = id => est(id)?.nombre || '(eliminado)';
+function vRegistro(v) {
+  const { ses, reg, obs } = datosFiltrados();
+  const tot = ses.reduce((a, s) => a + s.total, 0), comp = ses.reduce((a, s) => a + s.completados.length, 0);
+  const tiempos = ses.flatMap(s => s.completados.map(c => c.seg)).filter(Boolean);
+  const emos = contar(ses.map(s => s.emocion));
+  const coms = contar(reg.filter(r => r.tipo === 'comunicacion').map(r => r.detalle));
+  const lentos = (() => { const m = {}; ses.forEach(s => s.completados.forEach(c => (m[c.texto] = m[c.texto] || []).push(c.seg)));
+    return Object.entries(m).map(([k, a]) => [k, Math.round(a.reduce((x, y) => x + y, 0) / a.length)]).sort((a, b) => b[1] - a[1]).slice(0, 6); })();
+  const e = est(filtro.est);
+  const calmas = reg.filter(r => r.tipo === 'calma_inicio').length, calmaSeg = ses.reduce((a, s) => a + (s.calmaSeg || 0), 0);
+  const notas = contar(reg.filter(r => r.tipo === 'nota_docente').flatMap(r => (r.detalle || '').split(' · ').filter(x => NOTAS_RAPIDAS.includes(x))));
+  v.innerHTML = `
+  <div class="card no-print" style="margin-bottom:1rem"><div class="fila">
+    <label class="campo" style="min-width:220px">Estudiante<select id="rEst"><option value="">Todos</option>${S.estudiantes.map(x => `<option value="${x.id}" ${x.id === filtro.est ? 'selected' : ''}>${esc(x.nombre)}</option>`).join('')}</select></label>
+    <label class="campo">Desde<input type="date" id="rDesde" value="${filtro.desde}"></label>
+    <label class="campo">Hasta<input type="date" id="rHasta" value="${filtro.hasta}"></label>
+    <div class="fila" style="margin-left:auto">
+      <button class="btn" id="rObs">+ Observación docente</button><button class="btn" id="rCsvS">⬇ CSV sesiones</button>
+      <button class="btn" id="rCsvE">⬇ CSV acciones</button><button class="btn" id="rPrint">🖨 Imprimir informe</button>
+    </div></div></div>
+  <div class="card" style="margin-bottom:1rem">
+    <h2>Informe del panel de anticipación ${e ? '— ' + esc(e.nombre) : ''}</h2>
+    <p class="muted small">${e ? esc(e.necesidad) + (e.curso ? ' · ' + esc(e.curso) : '') + ' · ' : ''}Periodo: ${filtro.desde ? fISO(filtro.desde) : 'inicio'} – ${filtro.hasta ? fISO(filtro.hasta) : 'hoy'}</p>
+    <div class="kpis">
+      <div class="kpi"><span class="muted small">Clases</span><b>${ses.length}</b></div>
+      <div class="kpi"><span class="muted small">Pasos completados</span><b>${tot ? Math.round(comp / tot * 100) : 0}%</b><span class="small muted">${comp} de ${tot}</span></div>
+      <div class="kpi"><span class="muted small">Tiempo medio por paso</span><b>${tiempos.length ? fDur(tiempos.reduce((a, b) => a + b, 0) / tiempos.length) : '—'}</b></div>
+      <div class="kpi"><span class="muted small">Mensajes comunicados</span><b>${reg.filter(r => r.tipo === 'comunicacion').length}</b></div>
+      <div class="kpi"><span class="muted small">Cambios anticipados</span><b>${reg.filter(r => r.tipo === 'cambio_agenda').length}</b></div>
+      <div class="kpi"><span class="muted small">Emoción más frecuente</span><b style="font-size:1.2rem">${emos[0] ? esc(emos[0][0]) : '—'}</b></div>
+      <div class="kpi"><span class="muted small">Momentos de calma</span><b>${calmas}</b><span class="small muted">${calmaSeg ? fDur(calmaSeg) + ' en total' : ''}</span></div>
+      <div class="kpi"><span class="muted small">Premios conseguidos</span><b>${ses.filter(s => s.premio).length}</b></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:1rem"><h3>Evolución por clase ${e ? '— ' + esc(e.nombre) : ''}</h3>
+    ${e ? (ses.length ? graficoEvolucion(ses) : '<p class="muted small">Sin clases en este periodo.</p>') : '<p class="muted small">Elige un estudiante arriba para ver su evolución clase a clase (pasos completados y autonomía).</p>'}</div>
+  <div class="grid g2" style="margin-bottom:1rem">
+    <div class="card"><h3>Experiencia del alumnado: ¿cómo se sintió?</h3>${barras(emos)}</div>
+    <div class="card"><h3>Lo que más le gustó</h3>${barras(contar(ses.map(s => s.favorito)))}</div>
+    <div class="card"><h3>Mensajes del tablero de comunicación</h3>${barras(coms)}</div>
+    <div class="card"><h3>Nivel de apoyo (docente)</h3>${barras(contar(obs.map(o => o.apoyo)))}</div>
+    <div class="card"><h3>Pasos que más tiempo le toman</h3>${lentos.length ? lentos.map(([k, s]) => `<div class="barra"><span>${esc(k)}</span><div class="t"><i style="width:${s / Math.max(1, lentos[0][1]) * 100}%"></i></div><b>${s >= 60 ? Math.round(s / 60) + '′' : s + 's'}</b></div>`).join('') : '<p class="muted small">Sin datos todavía.</p>'}</div>
+    <div class="card"><h3>Autorregulación</h3>${barras(contar(obs.map(o => o.regulacion)))}</div>
+    <div class="card"><h3>Notas rápidas del docente</h3>${barras(notas)}</div>
+    <div class="card"><h3>Estrategias de calma usadas</h3>${barras(contar(reg.filter(r => r.tipo === 'calma_estrategia').map(r => r.detalle)))}</div>
+  </div>
+  <div class="card" style="margin-bottom:1rem"><h3>Clases realizadas</h3>
+    ${ses.length ? `<div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Estudiante</th><th>Clase</th><th>Pasos</th><th>Duración</th><th>Se sintió</th><th>Le gustó</th><th>Apoyo</th><th>Observación</th><th class="no-print"></th></tr></thead><tbody>
+    ${ses.map(s => { const o = S.observaciones.find(x => x.sesionId === s.id); const cambios = S.registros.filter(r => r.sesionId === s.id && r.tipo === 'cambio_agenda').length;
+      return `<tr><td>${fFecha(s.inicio)}<br><span class="muted small">${fHora(s.inicio)}</span></td><td>${esc(nombreEst(s.estudianteId))}</td><td>${esc(s.agendaNombre)}${cambios ? `<br><span class="badge warn">${cambios} cambio(s)</span>` : ''}</td>
+      <td><span class="badge ${s.completados.length === s.total ? 'ok' : 'warn'}">${s.completados.length}/${s.total}</span>${s.saltados?.length ? `<br><span class="small muted">${s.saltados.length} omitido(s)</span>` : ''}${s.calmas ? `<br><span class="small muted">calma ×${s.calmas}</span>` : ''}${s.premio ? '<br><span class="small">⭐ premio</span>' : ''}</td>
+      <td>${s.fin ? fDur((s.fin - s.inicio) / 1000) : '<span class="badge warn">abierta</span>'}</td><td>${esc(s.emocion || '—')}</td><td>${esc(s.favorito || '—')}</td>
+      <td>${o ? esc(o.apoyo) : '—'}</td><td class="small">${o ? `${esc(o.regulacion)}${o.participacion ? ` · Participación ${o.participacion}/5` : ''}${o.util ? ` · Panel: ${esc(o.util)}` : ''}${o.nota ? `<br>${esc(o.nota)}` : ''}` : ''}</td>
+      <td class="no-print"><button class="btn sm" data-obs="${s.id}">${o ? 'Editar' : '+ Obs.'}</button></td></tr>`; }).join('')}
+    </tbody></table></div>` : '<p class="muted">Todavía no hay clases registradas. Abre el panel desde «Inicio».</p>'}
+  </div>
+  ${obs.filter(o => !o.sesionId).length ? `<div class="card" style="margin-bottom:1rem"><h3>Observaciones generales</h3><table><thead><tr><th>Fecha</th><th>Estudiante</th><th>Apoyo</th><th>Regulación</th><th>Nota</th></tr></thead><tbody>
+    ${obs.filter(o => !o.sesionId).map(o => `<tr><td>${fFecha(o.ts)}</td><td>${esc(nombreEst(o.estudianteId))}</td><td>${esc(o.apoyo)}</td><td>${esc(o.regulacion)}</td><td>${esc(o.nota)}</td></tr>`).join('')}</tbody></table></div>` : ''}
+  <div class="card"><h3>Acciones registradas (${reg.length})</h3>
+    ${reg.length ? `<div class="tabla-wrap"><table><thead><tr><th>Fecha y hora</th><th>Estudiante</th><th>Acción</th><th>Detalle</th></tr></thead><tbody>
+    ${reg.slice(0, 400).map(r => `<tr><td>${fFecha(r.ts)} ${fHora(r.ts)}</td><td>${esc(nombreEst(r.estudianteId))}</td><td>${esc(TIPOS[r.tipo] || r.tipo)}</td><td>${esc(r.detalle || '')}${r.seg ? ` <span class="muted small">(${fDur(r.seg)})</span>` : ''}</td></tr>`).join('')}
+    </tbody></table></div>${reg.length > 400 ? '<p class="small muted">Se muestran las 400 más recientes; el CSV incluye todas.</p>' : ''}` : '<p class="muted">Sin acciones registradas.</p>'}
+  </div>`;
+  $('#rEst').onchange = e => { filtro.est = e.target.value; render(); };
+  $('#rDesde').onchange = e => { filtro.desde = e.target.value; render(); };
+  $('#rHasta').onchange = e => { filtro.hasta = e.target.value; render(); };
+  $('#rPrint').onclick = () => window.print();
+  $('#rObs').onclick = () => formObservacion(null, filtro.est);
+  v.onclick = e => { const b = e.target.closest('[data-obs]'); if (b) { const s = S.sesiones.find(x => x.id === b.dataset.obs); formObservacion(s, s.estudianteId); } };
+  const csv = filas => '﻿' + filas.map(f => f.map(c => `"${String(c ?? '').replace(/"/g, '""')}"`).join(';')).join('\r\n');
+  $('#rCsvS').onclick = () => descargar(`clases_panel_${hoyISO()}.csv`, csv([
+    ['Fecha', 'Hora inicio', 'Estudiante', 'Necesidad', 'Clase', 'Pasos completados', 'Total pasos', 'Pasos omitidos', 'Cambios en la clase', 'Duración (min)', 'Emoción', 'Lo que más le gustó', 'Mensajes comunicados', 'Momentos de calma', 'Tiempo en calma (min)', 'Premio conseguido', 'Notas rápidas', 'Apoyo', 'Regulación', 'Participación (1-5)', 'Utilidad del panel', 'Observación'],
+    ...ses.map(s => { const o = S.observaciones.find(x => x.sesionId === s.id) || {}; const ee = est(s.estudianteId) || {}; const rs = S.registros.filter(r => r.sesionId === s.id);
+      return [fFecha(s.inicio), fHora(s.inicio), nombreEst(s.estudianteId), ee.necesidad, s.agendaNombre, s.completados.length, s.total, s.saltados?.length || 0, rs.filter(r => r.tipo === 'cambio_agenda').length,
+        s.fin ? ((s.fin - s.inicio) / 60000).toFixed(1) : '', s.emocion, s.favorito, rs.filter(r => r.tipo === 'comunicacion').length, s.calmas || 0, ((s.calmaSeg || 0) / 60).toFixed(1), s.premio ? 'Sí' : 'No',
+        rs.filter(r => r.tipo === 'nota_docente').map(r => r.detalle).join(' | '), o.apoyo, o.regulacion, o.participacion, o.util, o.nota]; })
+  ]), 'text/csv;charset=utf-8');
+  $('#rCsvE').onclick = () => descargar(`acciones_panel_${hoyISO()}.csv`, csv([
+    ['Fecha', 'Hora', 'Estudiante', 'Acción', 'Detalle', 'Segundos', 'ID sesión'],
+    ...reg.slice().reverse().map(r => [fFecha(r.ts), new Date(r.ts).toLocaleTimeString('es-DO'), nombreEst(r.estudianteId), TIPOS[r.tipo] || r.tipo, r.detalle, r.seg || '', r.sesionId])
+  ]), 'text/csv;charset=utf-8');
+}
+function graficoEvolucion(lista) {
+  const L = lista.slice().sort((a, b) => a.inicio - b.inicio).slice(-20);
+  const W = 720, H = 230, pl = 40, pr = 14, pt = 12, pb = 36;
+  const x = i => pl + (L.length === 1 ? (W - pl - pr) / 2 : i * (W - pl - pr) / (L.length - 1));
+  const y = v => pt + (100 - v) * (H - pt - pb) / 100;
+  const comp = L.map(s => s.total ? Math.round(s.completados.length / s.total * 100) : 0);
+  const aut = L.map(s => { const o = S.observaciones.find(z => z.sesionId === s.id); return o && o.apoyo in AUTONOMIA ? AUTONOMIA[o.apoyo] : null; });
+  const linea = (vals, color, dash) => {
+    let d = '', pen = false;
+    vals.forEach((v, i) => { if (v == null) { pen = false; return; } d += `${pen ? 'L' : 'M'}${x(i).toFixed(1)} ${y(v).toFixed(1)} `; pen = true; });
+    return `<path d="${d}" fill="none" stroke="${color}" stroke-width="3" ${dash ? `stroke-dasharray="${dash}"` : ''} stroke-linejoin="round"/>` +
+      vals.map((v, i) => v == null ? '' : `<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="4.5" fill="${color}"><title>${fFecha(L[i].inicio)}: ${v}%</title></circle>`).join('');
+  };
+  const paso = Math.max(1, Math.ceil(L.length / 10));
+  return `<div class="graf"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Evolución por clase">
+    ${[0, 25, 50, 75, 100].map(v => `<line x1="${pl}" x2="${W - pr}" y1="${y(v)}" y2="${y(v)}" stroke="#e4e0d5"/><text x="${pl - 6}" y="${y(v) + 4}" font-size="11" text-anchor="end" fill="#5f6b78">${v}%</text>`).join('')}
+    ${L.map((s, i) => i % paso === 0 ? `<text x="${x(i)}" y="${H - 12}" font-size="11" text-anchor="middle" fill="#5f6b78">${new Date(s.inicio).toLocaleDateString('es-DO', { day: '2-digit', month: '2-digit' })}</text>` : '').join('')}
+    ${linea(comp, '#3d8a57')}${linea(aut, '#2e6b8a', '6 4')}
+  </svg><div class="ley"><span><i style="background:#3d8a57"></i>% de pasos completados</span><span><i style="background:#2e6b8a"></i>Autonomía según el apoyo registrado (independiente 100 · físico 0)</span></div></div>`;
+}
+function opciones(nombre, lista, valor) {
+  return `<div class="opciones">${lista.map((x, i) => `<input type="radio" name="${nombre}" id="${nombre}${i}" value="${esc(x)}" ${x === valor ? 'checked' : ''}><label for="${nombre}${i}">${esc(x)}</label>`).join('')}</div>`;
+}
+function formObservacion(ses, estId, trasPanel) {
+  const o = (ses && S.observaciones.find(x => x.sesionId === ses.id)) || {};
+  modal(`<h2>Observación docente</h2>
+  <p class="muted">${ses ? `${esc(nombreEst(ses.estudianteId))} · ${esc(ses.agendaNombre)} · ${fFecha(ses.inicio)} ${fHora(ses.inicio)} · ${ses.completados.length}/${ses.total} pasos${ses.emocion ? ' · se sintió ' + esc(ses.emocion.toLowerCase()) : ''}` : 'Observación general (sin clase asociada)'}</p>
+  <form id="fObs" class="grid" style="gap:.9rem">
+    ${ses ? '' : `<label class="campo">Estudiante<select name="est">${S.estudiantes.map(x => `<option value="${x.id}" ${x.id === estId ? 'selected' : ''}>${esc(x.nombre)}</option>`).join('')}</select></label>`}
+    <div><b>Nivel de apoyo que necesitó</b>${opciones('apoyo', APOYOS, o.apoyo || '')}</div>
+    <div><b>Autorregulación</b>${opciones('regulacion', REGULACION, o.regulacion || '')}</div>
+    <div><b>Participación (1 = mínima, 5 = plena)</b>${opciones('participacion', ['1', '2', '3', '4', '5'], o.participacion || '')}</div>
+    <div><b>¿El panel le ayudó a anticipar la clase?</b>${opciones('util', UTIL_PANEL, o.util || '')}</div>
+    <label class="campo">Observaciones<textarea name="nota" placeholder="Conductas observadas, desencadenantes, logros, ajustes para la próxima clase…">${esc(o.nota || '')}</textarea></label>
+    <div class="fila"><button class="btn pri">Guardar observación</button><button type="button" class="btn" data-cerrar>${trasPanel ? 'Omitir' : 'Cancelar'}</button></div>
+  </form>`, m => {
+    const f = $('#fObs', m);
+    f.onsubmit = ev => {
+      ev.preventDefault();
+      const val = n => f.querySelector(`input[name=${n}]:checked`)?.value || '';
+      const r = Object.assign(o, { sesionId: ses?.id || null, estudianteId: ses ? ses.estudianteId : f.est.value, ts: o.ts || Date.now(),
+        apoyo: val('apoyo'), regulacion: val('regulacion'), participacion: val('participacion'), util: val('util'), nota: f.nota.value.trim() });
+      if (!r.id) { r.id = uid(); S.observaciones.push(r);
+        S.registros.push({ id: uid(), ts: Date.now(), estudianteId: r.estudianteId, sesionId: r.sesionId, tipo: 'observacion', detalle: [r.apoyo, r.regulacion].filter(Boolean).join(' · ') }); }
+      guardar(); cerrarModal(); render(); toast('Observación guardada');
+    };
+  });
+}
+
+/* ---------- AJUSTES ---------- */
+function exportarRespaldo() {
+  S.ajustes.ultimoRespaldo = Date.now(); guardar();
+  descargar(`respaldo_panel_anticipacion_${hoyISO()}.json`, JSON.stringify({ ...S, cache: undefined }, null, 1), 'application/json');
+  if (vistaActual === 'inicio') render();
+}
+function vAjustes(v) {
+  const usado = (() => { try { return ((localStorage.getItem(CLAVE) || '').length / 1024).toFixed(0); } catch (e) { return '?'; } })();
+  const ej = S.agendas[0]?.pasos.find(p => p.picto) || S.emociones[0];
+  v.innerHTML = `
+  <div class="grid g2">
+    <div class="card">
+      <h2>Pictogramas ARASAAC</h2>
+      <p class="small muted">Personalización que ofrece la API de ARASAAC para los pictogramas con personas.</p>
+      <div class="grid" style="gap:.7rem;grid-template-columns:1fr 1fr">
+        <label class="campo">Color de piel<select id="aPiel">${PIELES.map(([v, t]) => `<option value="${v}" ${v === S.ajustes.piel ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
+        <label class="campo">Color de pelo<select id="aPelo">${PELOS.map(([v, t]) => `<option value="${v}" ${v === S.ajustes.pelo ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
+      </div>
+      <label class="chk" style="margin-top:.6rem"><input type="checkbox" id="aFitz" ${S.ajustes.fitzgerald ? 'checked' : ''}> Colorear el tablero de comunicación por tipo de palabra (clave de colores CAA)</label>
+      <label class="chk"><input type="checkbox" id="aColor" ${S.ajustes.color ? 'checked' : ''}> Pictogramas en color (desmarcar = blanco y negro)</label>
+      <div class="fila" style="margin-top:.8rem">${[S.emociones[0], S.agendas[0]?.pasos[1], S.agendas[0]?.pasos[3]].filter(Boolean).map(p => `<div style="width:90px">${pictoHTML(p, { s: 300 })}</div>`).join('')}</div>
+      <button class="btn sm" id="sRecache" style="margin-top:.8rem">↻ Volver a buscar pictogramas pendientes</button>
+    </div>
+    <div class="card">
+      <h2>Voz</h2>
+      ${'speechSynthesis' in window ? `
+      <label class="campo">Voz en español del dispositivo<select id="sVoz"><option value="">Automática</option>${voces.map(x => `<option ${x.name === S.ajustes.vozNombre ? 'selected' : ''} value="${esc(x.name)}">${esc(x.name)} (${x.lang})</option>`).join('')}</select>
+      <span class="ay">${voces.length ? voces.length + ' voces en español disponibles.' : 'Cargando voces… En algunos equipos hay que instalar una voz en español en la configuración del sistema.'}</span></label>
+      <div class="fila" style="margin-top:.6rem"><button class="btn" id="sProbar">🔊 Probar</button></div>` : '<p class="aviso">Este navegador no admite síntesis de voz. Usa Chrome, Edge o Safari actualizados.</p>'}
+      <label class="chk" style="margin-top:1rem"><input type="checkbox" id="sLeer" ${S.ajustes.leerAlIniciar ? 'checked' : ''}> Leer la agenda completa al abrir el panel</label>
+      <label class="chk"><input type="checkbox" id="sFel" ${S.ajustes.felicitar ? 'checked' : ''}> Felicitar con voz al completar cada paso</label>
+      <label class="chk"><input type="checkbox" id="sTrans" ${S.ajustes.avisoTransicion ? 'checked' : ''}> Avisar con voz antes de que termine el tiempo («Queda un minuto. Después: …»)</label>
+      <label class="chk"><input type="checkbox" id="sGuia" ${S.ajustes.guiarCalma ? 'checked' : ''}> Guiar la respiración con voz en el momento de calma</label>
+    </div>
+    <div class="card">
+      <h2>Panel del estudiante</h2>
+      <label class="campo">Controles del docente dentro del panel<select id="sDoc">
+        <option value="ocultos" ${S.ajustes.controlesDocente !== 'visibles' ? 'selected' : ''}>Plegados (menos estímulos para el estudiante)</option>
+        <option value="visibles" ${S.ajustes.controlesDocente === 'visibles' ? 'selected' : ''}>Siempre visibles</option></select></label>
+      <p class="small muted">Durante el panel la pantalla se mantiene encendida (si el navegador lo permite). Para salir: mantén pulsado «Salir» o pulsa Esc tres veces.</p>
+    </div>
+    <div class="card">
+      <h2>Pictogramas sin internet</h2>
+      <p class="small muted">Guarda en este dispositivo los pictogramas de tus clases, del tablero, de la calma y de los premios para usarlos en la cancha sin conexión.</p>
+      <p><b>${IMGCACHE.size}</b> pictogramas guardados · ${pictosEnUso().length} en uso.</p>
+      ${S.ajustes.cacheFallo ? '<p class="aviso small">El último intento no pudo descargar los pictogramas. Comprueba que tienes internet y vuelve a intentarlo.</p>' : ''}
+      <div class="fila"><button class="btn pri" id="sCache">📥 Guardar pictogramas ahora</button><button class="btn sm bad" id="sCacheDel">Vaciar</button></div>
+      <label class="chk" style="margin-top:.6rem"><input type="checkbox" id="sCacheAuto" ${S.ajustes.cacheAuto ? 'checked' : ''}> Guardar automáticamente los pictogramas nuevos</label>
+    </div>
+    <div class="card">
+      <h2>Datos y respaldo</h2>
+      <p class="small muted">Todo se guarda en este navegador (${usado} KB). Exporta un respaldo con frecuencia o para pasar los datos a otro equipo.</p>
+      <div class="fila"><button class="btn" id="sExp">⬇ Exportar respaldo (JSON)</button><label class="btn">⬆ Importar respaldo<input type="file" id="sImp" accept=".json,application/json" hidden></label></div>
+      <div class="fila" style="margin-top:.8rem"><button class="btn bad" id="sBorrarReg">Borrar registros</button><button class="btn bad" id="sReset">Restablecer todo</button></div>
+    </div>
+    <div class="card">
+      <h2>Licencia ARASAAC</h2>
+      <p class="small">Pictogramas de <a href="https://arasaac.org" target="_blank" rel="noopener">ARASAAC</a>, obtenidos con su <a href="https://arasaac.org/developers/api" target="_blank" rel="noopener">API pública</a>. Autor: Sergio Palao. Propiedad: Gobierno de Aragón (España). Licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC-SA</a>.</p>
+      <p class="small muted">Mantén esta atribución si compartes o imprimes materiales, y no los uses con fines comerciales.</p>
+    </div>
+  </div>`;
+  const reimg = () => { guardar(); render(); };
+  $('#aPiel').onchange = e => { S.ajustes.piel = e.target.value; reimg(); };
+  $('#aPelo').onchange = e => { S.ajustes.pelo = e.target.value; reimg(); };
+  $('#aColor').onchange = e => { S.ajustes.color = e.target.checked; reimg(); };
+  $('#aFitz').onchange = e => { S.ajustes.fitzgerald = e.target.checked; guardar(); };
+  $('#sRecache').onclick = () => { resolverPendientes(); toast('Buscando en ARASAAC…'); };
+  $('#sVoz') && ($('#sVoz').onchange = e => { S.ajustes.vozNombre = e.target.value; guardar(); });
+  $('#sProbar') && ($('#sProbar').onclick = () => hablar('Hola. Primero calentamos, después jugamos con la pelota.'));
+  $('#sLeer').onchange = e => { S.ajustes.leerAlIniciar = e.target.checked; guardar(); };
+  $('#sFel').onchange = e => { S.ajustes.felicitar = e.target.checked; guardar(); };
+  $('#sExp').onclick = exportarRespaldo;
+  $('#sTrans').onchange = e => { S.ajustes.avisoTransicion = e.target.checked; guardar(); };
+  $('#sGuia').onchange = e => { S.ajustes.guiarCalma = e.target.checked; guardar(); };
+  $('#sDoc').onchange = e => { S.ajustes.controlesDocente = e.target.value; guardar(); };
+  $('#sCache').onclick = () => { toast('Descargando pictogramas…'); cacheGuardar(false); };
+  $('#sCacheDel').onclick = () => confirmar('Se borrarán los pictogramas guardados en este dispositivo (se volverán a cargar desde internet).', async () => { await idbVaciar(); IMGCACHE.clear(); render(); });
+  $('#sCacheAuto').onchange = e => { S.ajustes.cacheAuto = e.target.checked; guardar(); if (e.target.checked) cacheGuardar(true); };
+  $('#sImp').onchange = e => {
+    const f = e.target.files[0]; if (!f) return; const r = new FileReader();
+    r.onload = () => { try { const d = JSON.parse(r.result); if (!d.estudiantes || !d.agendas) throw 0;
+      confirmar('Esto reemplazará los datos actuales por los del respaldo. ¿Continuar?', () => { S = d; migrar(); guardar(); render(); resolverPendientes(); toast('Respaldo importado'); });
+    } catch (x) { toast('El archivo no es un respaldo válido'); } };
+    r.readAsText(f);
+  };
+  $('#sBorrarReg').onclick = () => confirmar('Se borrarán todas las clases realizadas, acciones y observaciones (no las clases planificadas).', () => { S.sesiones = []; S.registros = []; S.observaciones = []; guardar(); render(); });
+  $('#sReset').onclick = () => confirmar('Se borrará TODO y se cargará el ejemplo inicial.', () => { S = porDefecto(); migrar(); guardar(); render(); resolverPendientes(); });
+}
+
+/* =====================================================================
+   PANEL DEL ESTUDIANTE
+   ===================================================================== */
+let P = null, tick = null, respT = null, wakeLock = null;
+function log(tipo, detalle, extra = {}) {
+  if (!P) return;
+  S.registros.push({ id: uid(), ts: Date.now(), estudianteId: P.est.id, sesionId: P.ses.id, tipo, detalle, ...extra });
+  guardar();
+}
+const hechoIds = () => new Set([...P.ses.completados.map(c => c.id), ...P.ses.saltados]);
+const fichasOn = () => !!P?.est.prefs.fichas?.activo;
+const metaFichas = () => P.est.prefs.fichas?.n || P.ag.pasos.length;
+const fichasGanadas = () => Math.min(metaFichas(), P.ses.completados.length);
+
+/* Mantener la pantalla encendida mientras el panel está abierto */
+async function pedirWakeLock() { try { if ('wakeLock' in navigator && P && document.visibilityState === 'visible') wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {} }
+document.addEventListener('visibilitychange', () => { if (P) pedirWakeLock(); });
+
+function abrirPanel(estId, agId) {
+  const e = est(estId), a = agenda(agId);
+  if (!e || !a || !a.pasos.length) return;
+  const ses = { id: uid(), estudianteId: e.id, agendaId: a.id, agendaNombre: a.nombre, inicio: Date.now(), fin: null, total: a.pasos.length,
+    completados: [], saltados: [], emocion: null, favorito: null, calmas: 0, calmaSeg: 0, premio: false };
+  S.sesiones.push(ses);
+  P = { est: e, ag: JSON.parse(JSON.stringify(a)), ses, idx: 0, t0: Date.now(), fase: 'pasos', avisado: false, pre: false, aviso: null,
+    reps: 0, calma: null, premioVisible: false, docAbierto: S.ajustes.controlesDocente === 'visibles' };
+  log('inicio_sesion', a.nombre);
+  $('#panel').classList.remove('oculto'); document.body.style.overflow = 'hidden';
+  try { document.documentElement.requestFullscreen?.().catch(() => {}); } catch (x) {}
+  pedirWakeLock();
+  pRender();
+  if (S.ajustes.leerAlIniciar) { hablar(`Hola, ${e.nombre}. ` + fraseAgenda(a)); log('escuchar_agenda', 'Automática al iniciar'); }
+  clearInterval(tick); tick = setInterval(pTick, 1000);
+}
+function cerrarPanel() {
+  if (!P) return;
+  clearInterval(tick); clearInterval(respT);
+  if (P.calma) { const seg = Math.round((Date.now() - P.calma.t0) / 1000); P.ses.calmaSeg += seg; log('calma_fin', 'Al cerrar el panel', { seg }); }
+  P.ses.fin = Date.now();
+  log('fin_sesion', `${P.ses.completados.length}/${P.ses.total} pasos`);
+  const ses = P.ses; P = null;
+  try { speechSynthesis.cancel(); } catch (x) {}
+  try { if (document.fullscreenElement) document.exitFullscreen(); } catch (x) {}
+  try { wakeLock?.release(); } catch (x) {} wakeLock = null;
+  $('#panel').classList.add('oculto'); $('#panel').innerHTML = ''; document.body.style.overflow = '';
+  cerrarModal(1); cerrarModal(2);
+  guardar(); render();
+  formObservacion(ses, ses.estudianteId, true);
+}
+
+/* Cambiar la clase en vivo (anticipar el imprevisto) */
+function cambiarClaseEnVivo() {
+  const actualId = P.ag.pasos[P.idx]?.id;
+  const antes = new Set(P.ag.pasos.map(p => p.id));
+  modal(`<h2>Cambiar la clase de hoy</h2>
+    <p class="muted small" style="margin-top:0">Modifica, añade o reordena los pasos pendientes. Los pasos ya hechos aparecen atenuados. Al aplicar, el panel avisará al estudiante con voz: «Hay un cambio».</p>
+    <div id="vivoPasos"></div>
+    <label class="chk" style="margin:.8rem 0"><input type="checkbox" id="vivoGuardar"> Guardar también estos cambios en la clase «${esc(P.ag.nombre)}»</label>
+    <div class="fila"><button class="btn warn grande" id="vivoAplicar">Aplicar y avisar del cambio</button><button class="btn" data-cerrar>Cancelar</button></div>`, m => {
+    const copia = JSON.parse(JSON.stringify(P.ag.pasos));
+    editorPasos($('#vivoPasos', m), copia, { hechos: hechoIds(), actualId });
+    $('#vivoAplicar', m).onclick = () => {
+      if (!copia.length) { toast('La clase necesita al menos un paso'); return; }
+      const nuevos = copia.filter(p => !antes.has(p.id));
+      P.ag.pasos = copia;
+      P.ses.total = copia.length;
+      P.ses.completados = P.ses.completados.filter(c => copia.some(p => p.id === c.id));
+      P.ses.saltados = P.ses.saltados.filter(id => copia.some(p => p.id === id));
+      const hechos = hechoIds();
+      let i = copia.findIndex(p => p.id === actualId && !hechos.has(p.id));
+      if (i < 0) i = copia.findIndex(p => !hechos.has(p.id));
+      if (copia[i]?.id !== actualId) { P.t0 = Date.now(); P.avisado = false; P.pre = false; P.reps = 0; }
+      if ($('#vivoGuardar', m).checked) { const a = agenda(P.ag.id); if (a) a.pasos = JSON.parse(JSON.stringify(copia)); }
+      cerrarModal(1);
+      log('cambio_agenda', nuevos.length ? 'Nuevo: ' + nuevos.map(p => p.texto).join(', ') : 'Orden o contenido modificado');
+      if (i < 0) { P.idx = copia.length; P.fase = 'emocion'; guardar(); pRender(); hablar('Hay un cambio. Terminamos la clase. ¿Cómo te sentiste?'); return; }
+      P.idx = i; P.aviso = Date.now();
+      guardar(); pRender(); $('#panel').scrollTop = 0;
+      const sig = siguientePendiente(i + 1);
+      hablar(`Atención. Hay un cambio en la clase. Ahora: ${copia[i].voz || copia[i].texto}.${sig ? ' Después: ' + (sig.voz || sig.texto) + '.' : ''}`);
+    };
+  }, 1, true);
+}
+
+/* Nota rápida del docente sin salir del panel */
+function notaRapida() {
+  modal(`<h2>Nota rápida</h2>
+    <p class="muted small" style="margin-top:0">${esc(P.est.nombre)} · paso actual: ${esc(P.ag.pasos[P.idx]?.texto || '—')}</p>
+    <div class="opciones" id="nrOps">${NOTAS_RAPIDAS.map((x, i) => `<input type="checkbox" id="nr${i}" value="${esc(x)}"><label for="nr${i}">${esc(x)}</label>`).join('')}</div>
+    <label class="campo" style="margin-top:.8rem">Detalle (opcional)<textarea id="nrTx" placeholder="Qué pasó, qué funcionó…"></textarea></label>
+    <div class="fila" style="margin-top:.8rem"><button class="btn pri" id="nrOk">Guardar nota</button><button class="btn" data-cerrar>Cancelar</button></div>`, m => {
+    $('#nrOk', m).onclick = () => {
+      const sel = $$('#nrOps input:checked', m).map(x => x.value), tx = $('#nrTx', m).value.trim();
+      if (!sel.length && !tx) { toast('Marca una opción o escribe un detalle'); return; }
+      log('nota_docente', [...sel, tx].filter(Boolean).join(' · '), { paso: P.ag.pasos[P.idx]?.texto });
+      cerrarModal(1); toast('Nota guardada');
+    };
+  });
+}
+
+/* Rincón de calma: respiración guiada + estrategias (el temporizador del paso se pausa) */
+function iniciarCalma() {
+  if (!P || P.calma) return;
+  P.calma = { t0: Date.now() }; P.ses.calmas++;
+  log('calma_inicio', P.ag.pasos[P.idx]?.texto || '');
+  hablar('Vamos a calmarnos. Respira conmigo.');
+  pRender(); cicloRespira();
+}
+function cicloRespira() {
+  clearInterval(respT); let n = 0;
+  const fase = () => {
+    if (!P || !P.calma) { clearInterval(respT); return; }
+    const c = $('#respira'); if (!c) return;
+    const inh = n % 2 === 0;
+    c.classList.toggle('in', inh); c.textContent = inh ? 'Inhala' : 'Exhala';
+    if (S.ajustes.guiarCalma && n < 8 && n > 0) hablar(inh ? 'Inhala' : 'Exhala', 0.75);
+    n++;
+  };
+  setTimeout(fase, 1600); respT = setInterval(fase, 4000);
+}
+function terminarCalma() {
+  if (!P?.calma) return;
+  const seg = Math.round((Date.now() - P.calma.t0) / 1000);
+  P.ses.calmaSeg += seg; P.t0 += seg * 1000;                       // el tiempo de calma no cuenta para el paso
+  log('calma_fin', 'Volvió a la actividad', { seg });
+  P.calma = null; clearInterval(respT);
+  const p = P.ag.pasos[P.idx];
+  hablar('Muy bien. Seguimos. Ahora: ' + (p?.voz || p?.texto || ''));
+  guardar(); pRender();
+}
+
+function siguientePendiente(desde) { const h = hechoIds(); for (let i = desde; i < P.ag.pasos.length; i++) if (!h.has(P.ag.pasos[i].id) && i !== P.idx) return P.ag.pasos[i]; return null; }
+function pRender() {
+  if (!P) return;
+  const el = $('#panel'), pr = P.est.prefs, pasos = P.ag.pasos, o = { byn: pr.byn };
+  el.classList.toggle('grande-ui', pr.tamano === 'grande');
+  const h = hechoIds(), hechos = h.size;
+  const txt = p => pr.mostrarTexto ? `<div class="tx">${esc(p.texto)}</div>` : '';
+  const estadoDe = (p, i) => P.ses.completados.some(c => c.id === p.id) ? 'hecho' : P.ses.saltados.includes(p.id) ? 'saltado' : (i === P.idx && P.fase === 'pasos') ? 'actual' : '';
+  const pTerm = sis('Terminé'), pFin = sis('Final'), pCambio = sis('Cambio'), pCalma = sis('Calma');
+  const ref = pr.fichas?.reforzador;
+  let cuerpo = '';
+  if (P.calma) {
+    cuerpo = `<div class="p-calma">
+      <h2 style="margin:0;font-size:1.9rem">Momento de calma</h2>
+      <p class="muted" style="margin:0;font-size:1.1rem">El círculo crece cuando inhalas y se hace pequeño cuando exhalas.</p>
+      <div class="respira" id="respira" aria-live="polite">Respira</div>
+      <div class="estr">${S.calma.map((x, i) => `<button data-calma="${i}">${pictoHTML(x, o)}${pr.mostrarTexto ? esc(x.texto) : ''}</button>`).join('')}</div>
+      <button class="btn-termine" id="pListo">${pTerm ? pictoHTML(pTerm, { s: 300, ...o }) : ''}Estoy listo</button>
+    </div>`;
+  } else if (P.fase === 'pasos') {
+    const p = pasos[P.idx], sig = siguientePendiente(P.idx + 1);
+    const avisoVisible = P.aviso && Date.now() - P.aviso < 20000;
+    const listo = p.veces > 0 && P.reps >= p.veces;
+    cuerpo = `
+    ${pr.vista === 'tira' ? `<div class="p-tira">${pasos.map((x, i) => (pr.hechos === 'quitar' && h.has(x.id)) ? '' : `<button class="it ${estadoDe(x, i)}" data-tocar="${i}">${pictoHTML(x, { s: 300, ...o })}<div>${pr.mostrarTexto ? esc(x.texto) : ''}</div></button>`).join('')}</div>` : ''}
+    ${avisoVisible ? `<div class="p-cambio">${pCambio ? pictoHTML(pCambio, { s: 300, ...o }) : ''}<span>Hay un cambio en la clase</span></div>` : ''}
+    <div class="p-centro">
+      <div class="p-col ahora">
+        <h2>Ahora</h2>
+        <button class="p-card" data-tocar="${P.idx}">${pictoHTML(p, o)}${txt(p)}</button>
+        ${p.veces > 0 ? `<div class="reps" id="pReps" aria-label="Contador de repeticiones">${Array.from({ length: p.veces }, (_, i) => `<button data-rep="${i}" class="${i < P.reps ? 'on' : ''}">${i + 1}</button>`).join('')}</div>` : ''}
+        ${pr.temporizador && p.minutos > 0 ? `<div class="timer" id="pTimer"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="42"/><circle class="fg" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="0"/></svg><span id="pTimerTx"></span></div>` : ''}
+        <div class="p-acciones"><button class="btn-termine ${listo ? 'listo' : ''}" id="pTermine">${pTerm ? pictoHTML(pTerm, { s: 300, ...o }) : ''}Terminé</button></div>
+        <details class="p-doc" id="pDoc" ${P.docAbierto ? 'open' : ''}><summary>⚙ Controles del docente</summary>
+          <div class="p-docente">
+            <button class="btn sm" id="pAnt" ${P.idx === 0 ? 'disabled' : ''}>◀ Paso anterior</button>
+            <button class="btn sm" id="pOir">🔊 Escuchar la clase</button>
+            <button class="btn sm warn" id="pCambiar">✏️ Cambiar la clase</button>
+            <button class="btn sm" id="pNota">📝 Nota rápida</button>
+            <button class="btn sm" id="pSaltar">Omitir paso ▶</button>
+          </div></details>
+      </div>
+      <div class="p-col despues">
+        <h2>Después</h2>
+        ${sig ? `<button class="p-card" data-tocar="${pasos.indexOf(sig)}">${pictoHTML(sig, o)}${txt(sig)}</button>`
+              : `<button class="p-card" data-decir="Terminamos la clase">${pFin ? pictoHTML(pFin, o) : ''}${pr.mostrarTexto ? '<div class="tx">Terminamos</div>' : ''}</button>`}
+      </div>
+    </div>`;
+  } else if (P.fase === 'emocion') {
+    cuerpo = `<div class="p-final">
+      ${pFin ? pictoHTML(pFin, { s: 300, cls: 'fin', ...o }) : ''}
+      <h2>¡Terminamos la clase!</h2>
+      <p style="font-size:1.5rem;font-weight:700">¿Cómo te sentiste?</p>
+      <div class="p-opc">${S.emociones.map((x, i) => `<button data-emo="${i}" class="${P.ses.emocion === x.texto ? 'sel' : ''}">${pictoHTML(x, o)}${esc(x.texto)}</button>`).join('')}</div>
+    </div>`;
+  } else if (P.fase === 'favorito') {
+    const lista = pasos.filter(x => P.ses.completados.some(c => c.id === x.id));
+    cuerpo = `<div class="p-final">
+      <p style="font-size:1.5rem;font-weight:700">¿Qué te gustó más?</p>
+      <div class="p-opc">${(lista.length ? lista : pasos).map(x => `<button data-fav="${pasos.indexOf(x)}" class="${P.ses.favorito === x.texto ? 'sel' : ''}">${pictoHTML(x, o)}${esc(x.texto)}</button>`).join('')}</div>
+      <div class="fila" style="justify-content:center"><button class="btn" id="pVolverEmo">◀ Volver</button><button class="btn ok grande" id="pFin">✔ Listo</button></div>
+    </div>`;
+  }
+  const g = fichasOn() ? fichasGanadas() : 0;
+  const fichas = fichasOn() ? `<div class="p-fichas" title="Estoy trabajando para…" data-decir="${esc('Estoy trabajando para: ' + (ref?.voz || ref?.texto || 'mi premio') + '. Tengo ' + g + ' de ' + metaFichas() + ' estrellas.')}">
+      ${ref?.picto ? pictoHTML(ref, { s: 300, ...o }) : ''}<div class="fila" style="gap:.25rem">${Array.from({ length: metaFichas() }, (_, i) => `<span class="fi ${i < g ? 'on' : ''}">${i < g ? '★' : ''}</span>`).join('')}</div></div>` : '';
+  const premio = P.premioVisible ? `<div class="p-premio" role="dialog" aria-label="Premio conseguido">
+      <div class="estrellas">${'★'.repeat(Math.min(metaFichas(), 12))}</div><h2>¡Lo conseguiste!</h2>
+      ${ref?.picto ? pictoHTML(ref, o) : ''}<p style="font-size:1.8rem;font-weight:700;margin:0">${esc(ref?.texto || 'Ganaste tu premio')}</p>
+      <button class="btn ok grande" id="pSeguir">Seguir</button></div>` : '';
+  el.innerHTML = `
+  <div class="p-top">
+    <span class="nom">${esc(P.est.nombre)}</span>
+    <div class="p-prog"><div class="t"><i style="width:${(hechos / pasos.length) * 100}%"></i></div><span class="small muted">${Math.min(hechos, pasos.length)} de ${pasos.length}</span></div>
+    ${fichas}
+    ${pr.calma !== false && P.fase === 'pasos' && !P.calma ? `<button class="btn-calma" id="pCalma">${pCalma ? pictoHTML(pCalma, { s: 300, ...o }) : ''}Calma</button>` : ''}
+    <button class="salir" id="pSalir" title="Mantén pulsado para salir"><i></i>Mantén pulsado para salir</button>
+  </div>
+  ${cuerpo}
+  ${P.fase === 'pasos' && !P.calma ? `<div class="p-tablero"><h3>Quiero decir…</h3><div class="bts">${S.tablero.map((x, i) => `<button data-com="${i}" ${S.ajustes.fitzgerald ? `style="border-color:${CATS[x.cat || 'misc'][1]};background:${CATS[x.cat || 'misc'][1]}22"` : ''}>${pictoHTML(x, { s: 300, ...o })}${esc(x.texto)}</button>`).join('')}</div></div>` : ''}
+  ${premio}`;
+
+  el.onclick = ev => {
+    const b = ev.target.closest('[data-tocar],[data-decir],[data-com],[data-emo],[data-fav],[data-rep],[data-calma]'); if (!b) return;
+    const d = b.dataset;
+    if (d.tocar !== undefined) { const x = pasos[+d.tocar]; hablar(x.voz || x.texto); log('pictograma_tocado', x.texto); }
+    if (d.decir) hablar(d.decir);
+    if (d.com !== undefined) { const x = S.tablero[+d.com]; hablar(x.voz || x.texto); log('comunicacion', x.texto, { paso: pasos[P.idx]?.texto }); b.classList.add('pulsado'); setTimeout(() => b.classList.remove('pulsado'), 900); }
+    if (d.rep !== undefined) {
+      const p = pasos[P.idx]; P.reps = Math.min(p.veces, P.reps + 1);
+      $$('#pReps button').forEach((x, i) => x.classList.toggle('on', i < P.reps));
+      if (P.reps >= p.veces) { hablar(`${NUM[P.reps] || P.reps}. ¡Lo lograste! Pulsa terminé.`); $('#pTermine')?.classList.add('listo'); }
+      else hablar(NUM[P.reps] || String(P.reps), 1);
+    }
+    if (d.calma !== undefined) { const x = S.calma[+d.calma]; hablar(x.voz || x.texto); log('calma_estrategia', x.texto); }
+    if (d.emo !== undefined) { const x = S.emociones[+d.emo]; P.ses.emocion = x.texto; hablar(x.voz || x.texto); log('emocion', x.texto); pRender();
+      setTimeout(() => { if (P && P.fase === 'emocion') { P.fase = 'favorito'; pRender(); setTimeout(() => hablar('¿Qué te gustó más?'), 1200); } }, 1300); }
+    if (d.fav !== undefined) { const x = pasos[+d.fav]; P.ses.favorito = x.texto; hablar('Me gustó: ' + (x.voz || x.texto)); log('favorito', x.texto); guardar(); pRender(); }
+  };
+  const on = (id, fn) => { const x = $('#' + id); if (x) x.onclick = fn; };
+  on('pTermine', completarPaso); on('pSaltar', saltarPaso); on('pAnt', pasoAnterior);
+  on('pCambiar', cambiarClaseEnVivo); on('pNota', notaRapida);
+  on('pOir', () => { hablar(fraseAgenda(P.ag)); log('escuchar_agenda', 'Desde el panel'); });
+  on('pCalma', iniciarCalma); on('pListo', terminarCalma);
+  on('pSeguir', () => { P.premioVisible = false; pRender(); });
+  on('pFin', () => { hablar('¡Muy bien! Hasta la próxima clase.'); setTimeout(cerrarPanel, 600); });
+  on('pVolverEmo', () => { P.fase = 'emocion'; pRender(); });
+  const doc = $('#pDoc'); if (doc) doc.ontoggle = () => { P.docAbierto = doc.open; };
+  if (P.fase === 'pasos' && !P.calma) pTick();
+  const s = $('#pSalir'); let tm = null;
+  const ini = ev => { ev.preventDefault(); s.classList.add('cargando'); tm = setTimeout(() => { s.classList.remove('cargando'); cerrarPanel(); }, 1600); };
+  const fin = () => { clearTimeout(tm); s.classList.remove('cargando'); };
+  s.addEventListener('pointerdown', ini); ['pointerup', 'pointerleave', 'pointercancel'].forEach(t => s.addEventListener(t, fin));
+}
+function pTick() {
+  if (!P || P.fase !== 'pasos' || P.calma) return;
+  if (P.aviso && Date.now() - P.aviso > 20000) { P.aviso = null; pRender(); return; }
+  const p = P.ag.pasos[P.idx], t = $('#pTimer'); if (!t || !p?.minutos) return;
+  const total = p.minutos * 60, rest = Math.max(0, total - (Date.now() - P.t0) / 1000);
+  const previo = total >= 120 ? 60 : Math.max(10, Math.round(total / 3));       // aviso de transición
+  const pronto = rest > 0 && rest <= previo;
+  $('.fg', t).setAttribute('stroke-dashoffset', (263.9 * (1 - rest / total)).toFixed(1));
+  $('#pTimerTx').textContent = rest > 0 ? `Quedan ${Math.floor(rest / 60)}:${String(Math.floor(rest % 60)).padStart(2, '0')}${pronto ? ' · pronto cambiamos' : ''}` : 'Tiempo terminado';
+  t.classList.toggle('pronto', pronto); t.classList.toggle('fin', rest <= 0);
+  if (pronto && !P.pre) {
+    P.pre = true;
+    if (S.ajustes.avisoTransicion) { const sig = siguientePendiente(P.idx + 1);
+      hablar(`${rest > 45 ? 'Queda un minuto' : 'Queda poco tiempo'}. ${sig ? 'Después: ' + (sig.voz || sig.texto) + '.' : 'Después terminamos la clase.'}`); }
+    log('aviso_transicion', p.texto);
+  }
+  if (rest <= 0 && !P.avisado) { P.avisado = true; hablar('Se terminó el tiempo. Cuando estés listo, pulsa terminé.'); log('tiempo_cumplido', p.texto); }
+}
+function avanzar(pref = '') {
+  const h = hechoIds();
+  let i = P.ag.pasos.findIndex((p, k) => k > P.idx && !h.has(p.id));
+  if (i < 0) i = P.ag.pasos.findIndex(p => !h.has(p.id));
+  P.t0 = Date.now(); P.avisado = false; P.pre = false; P.aviso = null; P.reps = 0;
+  if (i < 0) { P.idx = P.ag.pasos.length; P.fase = 'emocion'; hablar(pref + (pref ? '' : '¡Muy bien! ') + 'Terminamos la clase. ¿Cómo te sentiste?'); }
+  else { P.idx = i; const s = P.ag.pasos[i]; hablar(pref + (S.ajustes.felicitar && !pref ? '¡Muy bien! ' : '') + 'Ahora: ' + (s.voz || s.texto)); }
+  guardar(); pRender();
+}
+function completarPaso() {
+  const p = P.ag.pasos[P.idx], seg = Math.round((Date.now() - P.t0) / 1000);
+  const antes = fichasOn() ? fichasGanadas() : 0;
+  P.ses.completados = P.ses.completados.filter(c => c.id !== p.id);
+  P.ses.completados.push({ id: p.id, texto: p.texto, seg, ...(p.veces ? { reps: P.reps, veces: p.veces } : {}) });
+  log('paso_completado', p.texto + (p.veces ? ` (${P.reps} de ${p.veces} veces)` : ''), { seg });
+  let pref = '';
+  if (fichasOn()) {
+    const g = fichasGanadas(), m = metaFichas();
+    if (g > antes) log('ficha', `${g} de ${m}`);
+    if (g >= m && !P.ses.premio) {
+      P.ses.premio = true; P.premioVisible = true;
+      const r = P.est.prefs.fichas.reforzador; log('reforzador', r?.texto || 'Premio');
+      pref = `¡Conseguiste todas tus estrellas! ${r ? 'Ganaste: ' + (r.voz || r.texto) + '. ' : ''}`;
+    } else if (g > antes) pref = '¡Ganaste una estrella! ';
+  }
+  avanzar(pref);
+}
+function saltarPaso() {
+  const p = P.ag.pasos[P.idx];
+  if (!P.ses.saltados.includes(p.id)) P.ses.saltados.push(p.id);
+  log('paso_saltado', p.texto);
+  avanzar();
+}
+function pasoAnterior() {
+  if (P.idx <= 0) return;
+  P.idx--; P.t0 = Date.now(); P.avisado = false; P.pre = false; P.reps = 0;
+  const p = P.ag.pasos[P.idx];
+  P.ses.completados = P.ses.completados.filter(c => c.id !== p.id);
+  P.ses.saltados = P.ses.saltados.filter(id => id !== p.id);
+  log('paso_repetido', p.texto); hablar('Ahora: ' + (p.voz || p.texto));
+  guardar(); pRender();
+}
+
+/* ---------------- Arranque ---------------- */
+cargar();
+render();
+resolverPendientes();
+cacheCargar().then(() => { if (S.ajustes.cacheAuto && !S.ajustes.cacheFallo && navigator.onLine !== false) setTimeout(() => cacheGuardar(true), 2500); });
+window.addEventListener('beforeunload', () => { if (P) { P.ses.fin = Date.now(); guardar(); } });
+</script>
+</body>
+</html>
